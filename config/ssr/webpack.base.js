@@ -5,7 +5,7 @@ const path = require("path");
 module.exports = {
   devtool: "eval-cheap-module-source-map",
   resolve: {
-    extensions: [".ts", ".tsx", ".js", ".jsx"],
+    extensions: [".ts", ".tsx", ".js", ".jsx", ".css", ".less"],
     alias: {
       "@": path.join(__dirname, "../../src"),
     },
@@ -68,26 +68,30 @@ module.exports = {
         test: /\.css$/,
         use: [
           MiniCssExtractPlugin.loader,
+          "css-loader",
+          "postcss-loader",
           {
-            loader: "css-loader",
+            loader: "px2rem-loader",
             options: {
-              modules: true,
+              remUnit: 37.5,
+              remPrecesion: 8,
             },
           },
-          "postcss-loader",
         ],
       },
       {
         test: /\.scss$/,
         use: [
           MiniCssExtractPlugin.loader,
+          "css-loader",
+          "postcss-loader",
           {
-            loader: "css-loader",
+            loader: "px2rem-loader",
             options: {
-              modules: true,
+              remUnit: 37.5,
+              remPrecesion: 8,
             },
           },
-          "postcss-loader",
           "sass-loader",
         ],
       },
@@ -95,14 +99,23 @@ module.exports = {
         test: /\.less$/,
         use: [
           MiniCssExtractPlugin.loader,
+          "css-loader",
+          "postcss-loader",
           {
-            loader: "css-loader",
+            loader: "px2rem-loader",
             options: {
-              modules: true,
+              remUnit: 37.5,
+              remPrecesion: 8,
             },
           },
-          "postcss-loader",
-          "less-loader",
+          {
+            loader: "less-loader",
+            options: {
+              lessOptions: {
+                javascriptEnabled: true,
+              },
+            },
+          },
         ],
       },
     ],

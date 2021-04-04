@@ -6,14 +6,15 @@ import routes from "../routes";
 import render from "./utils";
 import { getServerStore, ServerStore } from "@/store";
 import { HOST } from "@/api";
+import { ServerMatch } from "@/typings";
 
 const app = express();
 
 app.use(
-  "/ssr/api",
+  "/api",
   proxy(HOST, {
     proxyReqPathResolver: (req) => {
-      return "/ssr/api" + req.url;
+      return "/api" + req.url;
     },
   })
 );
@@ -32,9 +33,13 @@ if (SSR) {
     matchedRoutes.forEach((item) => {
       if (item.route.loadData) {
         const promise = new Promise((resolve, reject) => {
-          (item.route.loadData as (store: ServerStore) => Promise<void>)(
-            store
-          ).then(resolve, resolve);
+          (item.route.loadData as (
+            store: ServerStore,
+            match: ServerMatch
+          ) => Promise<void>)(store, { ...item.match, query: req.query }).then(
+            resolve,
+            resolve
+          );
         });
         promises.push(promise);
       }

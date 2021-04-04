@@ -1,14 +1,24 @@
-export interface News {
+export interface City {
+  label: string;
+  value: string;
+}
+
+export interface House {
   id: number;
-  title: string;
+  name: string;
+  info: string;
+  address: string;
+  price: number;
+  cityCode: string;
+  showCount: 1;
+  url: string;
 }
 
-export interface GetHomeListAPI {
-  data: News[];
-  success: boolean;
+export interface GetCitiesAPI {
+  cities: City[][];
 }
 
-export interface TranslateAPI {
-  data: News[];
-  success: boolean;
+export interface GetHotsAPI {
+  count: number;
+  hots: House[];
 }

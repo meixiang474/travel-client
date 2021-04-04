@@ -1,15 +1,9 @@
 import { AxiosInstance } from "axios";
 
-export const getHomeList = <T>(
-  request: AxiosInstance,
-  params: Record<string, string>
-) => {
-  return request.get<T, T>("/ssr/api/news.json", { params });
+export const getCities = <T>(request: AxiosInstance) => {
+  return request.get<T, T>("/api/common/cities");
 };
 
-export const translate = <T>(
-  request: AxiosInstance,
-  params: Record<string, string>
-) => {
-  return request.get<T, T>("/ssr/api/translations.json", { params });
+export const getHots = <T>(request: AxiosInstance) => {
+  return request.get<T, T>("api/house/hot");
 };

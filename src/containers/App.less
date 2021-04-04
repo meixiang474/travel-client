@@ -1,0 +1,20 @@
+@import "@/assets/styles/mixin.less";
+.container {
+  .flex(column, space-between);
+  max-width: 750px;
+  height: 100%;
+  margin: 0 auto;
+  overflow-x: hidden;
+  position: relative;
+}
+.main {
+  flex: 1;
+  overflow: hidden;
+  position: relative;
+}
+.footer {
+  flex: 0 0 50px;
+  .menu-bar {
+    height: 100%;
+  }
+}

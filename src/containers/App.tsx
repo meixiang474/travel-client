@@ -1,55 +1,25 @@
-import { useDispatch, useSelector } from "react-redux";
-import { NewDispatch, RootState, ServerStore } from "@/store";
-import { Header } from "@/components";
 import { renderRoutes, RouteConfigComponentProps } from "react-router-config";
 import { NewRouteConfig } from "../routes";
-import * as userActions from "@/store/actions/user";
-import * as homeActions from "@/store/actions/home";
-import { useCallback, useEffect } from "react";
-import { useLocation } from "react-router";
+import { MenuBar } from "@/components";
+import { useLocation } from "react-router-dom";
+import "./App.less";
 
-const showHeadersRoutes = ["/", "/login", "/profile"];
+const showMenuBarRoutes = ["/", "/order", "/user"];
 
 const App = (props: RouteConfigComponentProps) => {
-  const { pathname } = useLocation();
-  const { login } = useSelector<RootState, RootState["user"]>(
-    (state) => state.user
-  );
-  const dispatch = useDispatch<NewDispatch>();
-
-  const showHeader = showHeadersRoutes.includes(pathname);
-
-  useEffect(() => {
-    if (!SSR) {
-      dispatch(userActions.validate());
-    }
-  });
-
-  const handleLogout = useCallback(() => {
-    dispatch(userActions.logout());
-  }, [dispatch]);
-
-  const translate = useCallback(() => {
-    dispatch(homeActions.translate());
-  }, [dispatch]);
-
   const { routes } = props.route as NewRouteConfig;
+  const { pathname } = useLocation();
   return (
-    <div>
-      {showHeader && (
-        <Header
-          login={login}
-          handleLogout={handleLogout}
-          translate={translate}
+    <div className="container">
+      <div className="main">{renderRoutes(routes)}</div>
+      <div className="footer">
+        <MenuBar
+          show={showMenuBarRoutes.includes(pathname)}
+          pathname={pathname}
         />
-      )}
-      {renderRoutes(routes)}
+      </div>
     </div>
   );
-};
-
-App.loadData = (store: ServerStore) => {
-  return store.dispatch(userActions.validate());
 };
 
 export default App;

@@ -1,51 +1,61 @@
 import { AxiosInstance } from "axios";
 import { GetState, NewDispatch } from "@/store";
 import * as Apis from "@/api";
-import { GetHomeListAPI, News, TranslateAPI } from "@/typings";
-import * as types from "../constants";
+import { City, GetCitiesAPI, GetHotsAPI, House } from "@/typings";
+import * as Types from "../constants";
 
-export const changeHomeList = (payload: News[]) => {
+export const changeSelectedCity = (payload: string[]) => {
   return {
-    type: types.CHANGE_HOME_LIST,
+    type: Types.CHANGE_SELECTED_HOME,
     payload,
   };
 };
 
-export const getHomeList = () => {
+export const changeTimes = (payload: string) => {
+  return {
+    type: Types.CHANGE_TIMES,
+    payload,
+  };
+};
+
+export const changeCities = (payload: City[][]) => {
+  return {
+    type: Types.CHANGE_CITIES,
+    payload,
+  };
+};
+
+export const getCities = () => {
   return async (
     dispatch: NewDispatch,
     getState: GetState,
     request: AxiosInstance
   ) => {
     try {
-      const { data } = await Apis.getHomeList<GetHomeListAPI>(request, {
-        secret: Apis.SECRET,
-      });
-      dispatch(changeHomeList(data));
+      const res = await Apis.getCities<GetCitiesAPI>(request);
+      dispatch(changeCities(res.cities));
     } catch (e) {
       console.error(e);
     }
   };
 };
 
-export const translate = () => {
+export const changeHots = (payload: House[]) => {
+  return {
+    type: Types.CHANGE_HOTS,
+    payload,
+  };
+};
+
+export const getHots = () => {
   return async (
     dispatch: NewDispatch,
     getState: GetState,
     request: AxiosInstance
   ) => {
-    const {
-      user: { login },
-    } = getState();
-    if (!login) {
-      alert("请先登录");
-      return;
-    }
     try {
-      const { data } = await Apis.translate<TranslateAPI>(request, {
-        secret: Apis.SECRET,
-      });
-      dispatch(changeHomeList(data));
+      const res = await Apis.getHots<GetHotsAPI>(request);
+      dispatch(changeHots(res.hots));
     } catch (e) {
       console.error(e);
     }

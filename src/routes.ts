@@ -7,7 +7,7 @@ import User from "./containers/User";
 import NotFound from "./containers/NotFound";
 
 export interface NewRouteConfig extends RouteConfig {
-  loadData?: (store: ServerStore) => Promise<void>;
+  loadData?: (store: ServerStore, router: any) => Promise<void>;
 }
 
 const routes: NewRouteConfig[] = [
@@ -15,13 +15,13 @@ const routes: NewRouteConfig[] = [
     key: "app",
     path: "/",
     component: App,
-    loadData: App.loadData,
     routes: [
       {
         key: "home",
         path: "/",
         component: Home,
         exact: true,
+        loadData: Home.loadData,
       },
       {
         key: "order",

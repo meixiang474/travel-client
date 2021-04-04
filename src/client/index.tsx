@@ -1,6 +1,11 @@
 import ReactDOM from "react-dom";
 import { ComponentType } from "react";
 import App from "@/App";
+import { resolveRem } from "@/utils";
+import "antd-mobile/dist/antd-mobile.less";
+import "@/assets/styles/global.less";
+
+resolveRem();
 
 const root = document.getElementById("root");
 
