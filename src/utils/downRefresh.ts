@@ -15,23 +15,30 @@ export const downRefresh = (
       return;
     }
 
+    const back = () => {
+      $timer = setInterval(() => {
+        let currentTop = element.offsetTop;
+        if (currentTop - originalTop > 10) {
+          element.style.top = currentTop - 10 + "px";
+        } else {
+          element.style.top = originalTop + "px";
+          clearTimeout($timer);
+          $timer = null;
+        }
+      }, 13);
+    };
+
     const touchEnd = (event: TouchEvent) => {
       element.removeEventListener("touchmove", touchMove);
       element.removeEventListener("touchend", touchEnd);
       if (distance > 30) {
         callback().then(() => {
           setLoading(false);
-          $timer = setInterval(() => {
-            let currentTop = element.offsetTop;
-            if (currentTop - originalTop > 10) {
-              element.style.top = currentTop - 10 + "px";
-            } else {
-              element.style.top = originalTop + "px";
-              clearTimeout($timer);
-              $timer = null;
-            }
-          }, 13);
+          back();
         });
+      } else {
+        setLoading(false);
+        back();
       }
     };
 
@@ -43,7 +50,7 @@ export const downRefresh = (
         if (element.offsetTop > 30) {
           setLoading(true);
         }
-      } else {
+      } else if (element.offsetTop === originalTop) {
         element.removeEventListener("touchmove", touchMove);
         element.removeEventListener("touchend", touchEnd);
       }

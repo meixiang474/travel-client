@@ -20,5 +20,7 @@ module.exports = {
     "no-undef": "off",
     "@typescript-eslint/consistent-type-assertions": "off",
     "max-params": "off",
+    "no-eq-null": "off",
+    eqeqeq: "off",
   },
 };

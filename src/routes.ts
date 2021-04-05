@@ -4,6 +4,7 @@ import App from "./containers/App";
 import Home from "./containers/Home";
 import Order from "./containers/Order";
 import User from "./containers/User";
+import Search from "./containers/Search";
 import NotFound from "./containers/NotFound";
 
 export interface NewRouteConfig extends RouteConfig {
@@ -32,6 +33,11 @@ const routes: NewRouteConfig[] = [
         key: "user",
         path: "/user",
         component: User,
+      },
+      {
+        key: "search",
+        path: "/search",
+        component: Search,
       },
       {
         key: "notFound",

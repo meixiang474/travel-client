@@ -1,6 +1,9 @@
 import { City } from "@/typings";
 import { Picker, List, Calendar, Button } from "antd-mobile";
 import { memo, useState } from "react";
+import { useHistory } from "react-router-dom";
+import qs from "qs";
+import { cleanObject } from "@/utils";
 
 interface SearchProps {
   selectedCity: string[];
@@ -18,10 +21,22 @@ const Search = (props: SearchProps) => {
     handleTimesChange,
     cities,
   } = props;
+  const history = useHistory();
   const [dateShow, setDateShow] = useState(false);
+
   const handleDate = () => {
     setDateShow(!dateShow);
   };
+
+  const handleClick = () => {
+    const query = cleanObject({
+      code: selectedCity[0],
+      startTime: times.includes("~") ? times.split("~")[0] : "",
+      endTime: times.includes("~") ? times.split("~")[1] : "",
+    });
+    history.push(`/search?${qs.stringify(query)}`);
+  };
+
   return (
     <div className="search">
       <div className="search_addr">
@@ -40,7 +55,7 @@ const Search = (props: SearchProps) => {
         <p className="search_time_left">出租时间</p>
         <p className="search_time_right">{times}</p>
       </div>
-      <Button type="warning" size="large">
+      <Button type="warning" size="large" onClick={handleClick}>
         搜索民宿
       </Button>
       <Calendar
