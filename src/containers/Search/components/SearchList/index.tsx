@@ -3,6 +3,7 @@ import { memo } from "react";
 import { useImg } from "@/hooks";
 import loading from "@/assets/images/lazy.webp";
 import { useHistory } from "react-router-dom";
+import { RefreshLoading } from "@/components";
 
 interface SearchListProps {
   houses: House[];
@@ -35,13 +36,7 @@ const SearchList = (props: SearchListProps) => {
           </div>
         );
       })}
-      {refreshLoading ? (
-        <div className="search_list_bottom">正在加载...</div>
-      ) : hasMore ? (
-        <div className="search_list_bottom">下滑加载更多</div>
-      ) : (
-        <div className="search_list_bottom">已经到底了</div>
-      )}
+      <RefreshLoading refreshLoading={refreshLoading} hasMore={hasMore} />
     </>
   );
 };

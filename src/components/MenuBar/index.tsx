@@ -1,4 +1,5 @@
 import { TabBar } from "antd-mobile";
+import { memo } from "react";
 import {
   BsHouseDoorFill,
   BsHouseDoor,
@@ -36,7 +37,7 @@ const tabBarItems = [
   },
 ];
 
-export const MenuBar = (props: MenuBarProps) => {
+export const MenuBar = memo((props: MenuBarProps) => {
   const { show = false, pathname = "" } = props;
   const history = useHistory();
 
@@ -60,4 +61,4 @@ export const MenuBar = (props: MenuBarProps) => {
       </TabBar>
     </div>
   );
-};
+});

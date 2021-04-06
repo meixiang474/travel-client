@@ -17,8 +17,8 @@ import SearchList from "./components/SearchList";
 import "./style.less";
 import { ServerMatch } from "@/typings";
 import { useLoadMore } from "@/hooks/useLoadMore";
-import { BsArrowRepeat } from "react-icons/bs";
 import SearchBar from "./components/SearchBar";
+import { DownRefreshLoading } from "@/components";
 
 const Search = () => {
   const { houses, refreshLoading, count } = useSelector<
@@ -55,6 +55,7 @@ const Search = () => {
     }
   });
 
+  // 记录滚动位置
   useScrollTop("searchListScrollTop", listContainerRef);
 
   // 上拉加载
@@ -111,12 +112,7 @@ const Search = () => {
           handleCancel={handleCancel}
         />
       </div>
-      {downRefreshLoading && (
-        <div className="rotate_icon">
-          <BsArrowRepeat className="rotate_icon" />
-          <div>loading</div>
-        </div>
-      )}
+      <DownRefreshLoading downRefreshLoading={downRefreshLoading} />
       <div className="search_list_container" ref={listContainerRef}>
         {loading ? (
           <ActivityIndicator toast />

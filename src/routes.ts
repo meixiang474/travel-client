@@ -6,6 +6,7 @@ import Order from "./containers/Order";
 import User from "./containers/User";
 import Search from "./containers/Search";
 import NotFound from "./containers/NotFound";
+import House from "./containers/House";
 
 export interface NewRouteConfig extends RouteConfig {
   loadData?: (store: ServerStore, router: any) => Promise<void>;
@@ -39,6 +40,11 @@ const routes: NewRouteConfig[] = [
         pah: "/search",
         component: Search,
         loadData: Search.loadData,
+      },
+      {
+        key: "house",
+        path: "/house",
+        component: House,
       },
       {
         key: "notFound",

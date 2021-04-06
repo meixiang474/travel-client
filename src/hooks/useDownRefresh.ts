@@ -1,14 +1,19 @@
 /* eslint-disable react-hooks/exhaustive-deps */
 import { downRefresh } from "@/utils";
-import { useEffect, RefObject, useState } from "react";
+import { RefObject, useState } from "react";
+import { useMount } from "./useMount";
 
 export const useDownRefresh = (
   ref: RefObject<HTMLElement>,
   callback: (...args: any[]) => Promise<any>
 ) => {
   const [loading, setLoading] = useState(false);
-  useEffect(() => {
-    downRefresh(ref.current as HTMLElement, callback, setLoading);
-  }, []);
+  useMount(() => {
+    const element = ref.current as HTMLElement;
+    const fn = downRefresh(element, callback, setLoading);
+    return () => {
+      element.removeEventListener("touchstart", fn);
+    };
+  });
   return loading;
 };

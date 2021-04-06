@@ -1,7 +1,6 @@
-import { useCallback, useEffect, useRef } from "react";
+import { useCallback, useRef } from "react";
 import { useDispatch, useSelector } from "react-redux";
 import dayjs from "dayjs";
-import { BsArrowRepeat } from "react-icons/bs";
 import { NewDispatch, RootState, ServerStore } from "@/store";
 import Header from "./components/Header";
 import Hot from "./components/Hot";
@@ -12,6 +11,7 @@ import { useMount } from "@/hooks";
 import { parallel } from "@/utils";
 import { useDownRefresh } from "@/hooks/useDownRefresh";
 import { ServerMatch } from "@/typings";
+import { DownRefreshLoading } from "@/components";
 
 const Home = () => {
   const { selectedCity, times, cities, hots } = useSelector<
@@ -56,12 +56,7 @@ const Home = () => {
 
   return (
     <div className="home">
-      {refreshLoading && (
-        <div className="rotate_icon">
-          <BsArrowRepeat className="rotate_icon" />
-          <div>loading</div>
-        </div>
-      )}
+      <DownRefreshLoading downRefreshLoading={refreshLoading} />
       <div className="home_container" ref={homeRef}>
         <Header />
         <Search

@@ -5,26 +5,3 @@
   justify-content: @justify;
 }
 
-@keyframes rotating {
-  from{
-    transform: rotate(0);
-  }
-  to{
-    transform: rotate(360deg);
-  }
-}
-
-.rotate_icon {
-	.flex(row, center, center);
-	font-size: 25px;
-	color: #108ee9;
-	svg {
-		margin-top: 5px;
-		margin-right: 5px;
-		animation: rotating 1.2s linear infinite;
-	}
-	div {
-		margin-top: 5px;
-		font-size: 18px;
-	}
-}

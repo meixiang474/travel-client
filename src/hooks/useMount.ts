@@ -3,6 +3,11 @@ import { useEffect } from "react";
 
 export const useMount = (callback: (...args: any) => any) => {
   useEffect(() => {
-    callback();
+    const release = callback();
+    return () => {
+      if (typeof release === "function") {
+        release();
+      }
+    };
   }, []);
 };

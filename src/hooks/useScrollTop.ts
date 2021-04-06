@@ -1,6 +1,7 @@
-import { useMount } from "./useMount";
+/* eslint-disable react-hooks/exhaustive-deps */
 import { RefObject } from "react";
 import { storage } from "@/utils";
+import { useMount } from "./useMount";
 
 export const useScrollTop = (
   key: string,
@@ -8,8 +9,12 @@ export const useScrollTop = (
 ) => {
   useMount(() => {
     const element = scrollRef.current as HTMLElement;
-    element.addEventListener("scroll", () => {
+    const callback = () => {
       storage.set(key, element.scrollTop);
-    });
+    };
+    element.addEventListener("scroll", callback);
+    return () => {
+      element.removeEventListener("scroll", callback);
+    };
   });
 };

@@ -11,7 +11,7 @@ export const downRefresh = (
   let originalTop = element.offsetTop;
   let startTop = 0;
   let $timer: any = null;
-  element.addEventListener("touchstart", (event: TouchEvent) => {
+  const fn = (event: TouchEvent) => {
     if ($timer) {
       return;
     }
@@ -69,5 +69,7 @@ export const downRefresh = (
       element.addEventListener("touchmove", touchMove);
       element.addEventListener("touchend", touchEnd);
     }
-  });
+  };
+  element.addEventListener("touchstart", fn);
+  return fn;
 };
