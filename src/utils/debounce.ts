@@ -8,6 +8,6 @@ export const debounce = (fn: (...args: any[]) => any, delay = 200) => {
       fn.call(this, ...args);
       clearTimeout(timer);
       timer = null;
-    });
+    }, delay);
   };
 };

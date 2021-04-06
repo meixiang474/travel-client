@@ -2,6 +2,7 @@ import { House } from "@/typings";
 import { memo } from "react";
 import { useImg } from "@/hooks";
 import loading from "@/assets/images/lazy.webp";
+import { useHistory } from "react-router-dom";
 
 interface SearchListProps {
   houses: House[];
@@ -11,6 +12,7 @@ interface SearchListProps {
 
 const SearchList = (props: SearchListProps) => {
   const { houses, refreshLoading, hasMore } = props;
+  const history = useHistory();
 
   useImg(".img", { loading }, [houses]);
 
@@ -18,7 +20,13 @@ const SearchList = (props: SearchListProps) => {
     <>
       {houses.map((item) => {
         return (
-          <div className="search_list_item" key={item.id}>
+          <div
+            className="search_list_item"
+            key={item.id}
+            onClick={() => {
+              history.push("/order");
+            }}
+          >
             <img className="img" data-src={item.url} alt="img" src={loading} />
             <div className="item_right">
               <div className="title">{item.name}</div>

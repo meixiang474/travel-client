@@ -8,8 +8,6 @@ export const useScrollTop = (
 ) => {
   useMount(() => {
     const element = scrollRef.current as HTMLElement;
-    console.log(storage.get(key));
-    element.scrollTop = storage.get(key) || 0;
     element.addEventListener("scroll", () => {
       storage.set(key, element.scrollTop);
     });

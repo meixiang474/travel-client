@@ -1,6 +1,6 @@
 import { City } from "@/typings";
 import { Picker, List, Calendar, Button, Toast } from "antd-mobile";
-import { memo, useEffect, useState } from "react";
+import { memo, useState } from "react";
 import { useHistory } from "react-router-dom";
 import qs from "qs";
 import { cleanObject } from "@/utils";
@@ -37,7 +37,13 @@ const Search = (props: SearchProps) => {
       startTime: times.split("~")[0],
       endTime: times.split("~")[1],
     });
-    history.push(`/search?${qs.stringify(query)}`);
+    history.push({
+      pathname: `search`,
+      state: {
+        from: "/",
+      },
+      search: `?${qs.stringify(query)}`,
+    });
   };
 
   return (

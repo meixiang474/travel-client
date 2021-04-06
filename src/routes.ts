@@ -36,7 +36,7 @@ const routes: NewRouteConfig[] = [
       },
       {
         key: "search",
-        path: "/search",
+        pah: "/search",
         component: Search,
         loadData: Search.loadData,
       },

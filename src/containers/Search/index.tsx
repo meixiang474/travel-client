@@ -7,8 +7,8 @@ import {
   useScrollTop,
 } from "@/hooks";
 import { NewDispatch, RootState, ServerStore } from "@/store";
-import { SearchBar, ActivityIndicator } from "antd-mobile";
-import { useState, useRef } from "react";
+import { ActivityIndicator } from "antd-mobile";
+import { useState, useRef, ChangeEvent, useCallback } from "react";
 import { useDispatch, useSelector } from "react-redux";
 import { useLocation } from "react-router-dom";
 import * as SearchActions from "@/store/actions/seatch";
@@ -18,13 +18,14 @@ import "./style.less";
 import { ServerMatch } from "@/typings";
 import { useLoadMore } from "@/hooks/useLoadMore";
 import { BsArrowRepeat } from "react-icons/bs";
+import SearchBar from "./components/SearchBar";
 
 const Search = () => {
   const { houses, refreshLoading, count } = useSelector<
     RootState,
     RootState["search"]
   >((state) => state.search);
-  const { search } = useLocation();
+  const { search, state } = useLocation<{ from: string }>();
   const dispatch = useDispatch<NewDispatch>();
   const [houseName, setHouseName] = useState("");
   const [loading, setLoading] = useState(false);
@@ -48,14 +49,10 @@ const Search = () => {
 
   // ssr mount时不需要再加载数据
   useMount(() => {
-    if (houses.length === 0) {
+    console.log(state);
+    if (state && state.from === "/") {
       searchHouses();
     }
-    // else {
-    //   console.log(listContainerRef.current);
-    //   (listContainerRef.current as HTMLDivElement).scrollTop =
-    //     storage.get("searchListScrollTop") || 0;
-    // }
   });
 
   useScrollTop("searchListScrollTop", listContainerRef);
@@ -97,22 +94,21 @@ const Search = () => {
     searchHouses();
   }, [debounceHouseName]);
 
-  const handleChange = (val: string) => {
-    setHouseName(val);
-  };
+  const handleChange = useCallback((e: ChangeEvent<HTMLInputElement>) => {
+    setHouseName(e.target.value);
+  }, []);
 
-  const handleCancel = () => {
+  const handleCancel = useCallback(() => {
     setHouseName("");
-  };
+  }, []);
 
   return (
     <div className="search_page">
       <div className="search_bar">
         <SearchBar
-          placeholder="搜索民宿"
-          value={houseName}
-          onChange={handleChange}
-          onCancel={handleCancel}
+          houseName={houseName}
+          handleChange={handleChange}
+          handleCancel={handleCancel}
         />
       </div>
       {downRefreshLoading && (
