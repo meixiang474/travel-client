@@ -7,3 +7,5 @@ export * from "./downRefresh";
 export * from "./cleanObject";
 export * from "./isVoid";
 export * from "./unPick";
+export * from "./debounce";
+export * from "./storage";

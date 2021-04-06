@@ -1,4 +1,7 @@
+import { memo } from "react";
+import { useImg } from "@/hooks";
 import { House } from "@/typings";
+import loading from "@/assets/images/lazy.webp";
 
 interface HotProps {
   hots: House[];
@@ -6,6 +9,13 @@ interface HotProps {
 
 const Hot = (props: HotProps) => {
   const { hots } = props;
+  useImg(
+    ".img",
+    {
+      loading,
+    },
+    [hots]
+  );
 
   return (
     <div className="hot">
@@ -14,7 +24,12 @@ const Hot = (props: HotProps) => {
         {hots.map((item) => {
           return (
             <div className="hot_lists_item" key={item.id}>
-              <img src={item.url} alt="img" className="img" />
+              <img
+                data-src={item.url}
+                alt="img"
+                className="img"
+                src={loading}
+              />
               <div className="title">{item.name}</div>
               <div className="info">{item.info}</div>
               <div className="price">¥{item.price}</div>
@@ -26,4 +41,4 @@ const Hot = (props: HotProps) => {
   );
 };
 
-export default Hot;
+export default memo(Hot);

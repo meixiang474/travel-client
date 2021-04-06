@@ -22,5 +22,6 @@ module.exports = {
     "max-params": "off",
     "no-eq-null": "off",
     eqeqeq: "off",
+    "@typescript-eslint/explicit-member-accessibility": "off",
   },
 };

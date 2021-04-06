@@ -1,0 +1,76 @@
+@import "@/assets/styles/mixin.less";
+
+.search_page {
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  overflow: hidden;
+  .am-search-input {
+    flex: 0 0 100%;
+  }
+  .search_bar {
+    width: 100%;
+    input {
+      width: 100% !important;
+    }
+  }
+  .am-search-clear-show {
+    position: absolute;
+    top: 7px;
+    right: 7px;
+  }
+  .am-search-synthetic-ph-container {
+    i,
+    span {
+      vertical-align: middle;
+      position: relative;
+    }
+    i {
+      bottom: 2px;
+    }
+    span {
+      bottom: 4px;
+    }
+  }
+  .search_list_container {
+    width: 100%;
+    height: calc(100% - 55px);
+    overflow-y: auto;
+    overflow-x: hidden;
+    position: fixed;
+    top: 54px;
+    left: 0;
+    background-color: #fff;
+    .search_list_item {
+      .flex(row, flex-start, center);
+      width: 100%;
+      box-sizing: border-box;
+      height: 120px;
+      padding: 10px;
+      font-size: 18px;
+      .img {
+        width: 167px;
+        flex: 0 0 167px;
+        height: 100px;
+        margin-right: 10px;
+        border-radius: 10px;
+      }
+      .item_right {
+        box-sizing: border-box;
+        height: 100px;
+        padding-top: 20px;
+        display: flex;
+        flex-direction: column;
+        .title {
+          margin-bottom: 20px;
+        }
+      }
+    }
+    .search_list_bottom {
+      font-size: 16px;
+      text-align: center;
+    }
+  }
+}

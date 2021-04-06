@@ -3,7 +3,8 @@ import { throttle } from ".";
 export const downRefresh = (
   element: HTMLElement,
   callback: (...args: any[]) => Promise<any>,
-  setLoading: (val: boolean) => void
+  setLoading: (val: boolean) => void,
+  step = 10
 ) => {
   let startY = 0;
   let distance = 0;
@@ -19,9 +20,10 @@ export const downRefresh = (
       $timer = setInterval(() => {
         let currentTop = element.offsetTop;
         if (currentTop - originalTop > 10) {
-          element.style.top = currentTop - 10 + "px";
+          element.style.top = currentTop - step + "px";
         } else {
           element.style.top = originalTop + "px";
+          distance = 0;
           clearTimeout($timer);
           $timer = null;
         }
@@ -45,10 +47,15 @@ export const downRefresh = (
     const touchMove = throttle((event: TouchEvent) => {
       let pageY = event.touches[0].pageY;
       if (pageY > startY) {
+        if (pageY - startY > 100) {
+          return;
+        }
         distance = pageY - startY;
         element.style.top = startTop + distance + "px";
-        if (element.offsetTop > 30) {
+        if (distance > 30) {
           setLoading(true);
+        } else {
+          setLoading(false);
         }
       } else if (element.offsetTop === originalTop) {
         element.removeEventListener("touchmove", touchMove);
@@ -57,7 +64,7 @@ export const downRefresh = (
     }, 30);
 
     if (element.scrollTop === 0) {
-      startTop = element.offsetTop;
+      startTop = originalTop;
       startY = event.touches[0].pageY;
       element.addEventListener("touchmove", touchMove);
       element.addEventListener("touchend", touchEnd);

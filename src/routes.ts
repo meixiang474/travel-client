@@ -38,6 +38,7 @@ const routes: NewRouteConfig[] = [
         key: "search",
         path: "/search",
         component: Search,
+        loadData: Search.loadData,
       },
       {
         key: "notFound",

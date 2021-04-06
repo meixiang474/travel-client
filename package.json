@@ -104,7 +104,8 @@
     "*.ttf",
     "*.eot",
     "*.less",
-    "*.jpeg"
+    "*.jpeg",
+    "webp"
   ],
   "lint-staged": {
     "*.{js,css,md,ts,tsx,jsx,less,scss}": "prettier --write"

@@ -6,6 +6,6 @@ const setRemUnit = () => {
 };
 
 export const resolveRem = () => {
-  document.addEventListener("DOMContentLoaded", setRemUnit);
+  setRemUnit();
   window.addEventListener("resize", setRemUnit);
 };

@@ -9,6 +9,7 @@ const showMenuBarRoutes = ["/", "/order", "/user"];
 const App = (props: RouteConfigComponentProps) => {
   const { routes } = props.route as NewRouteConfig;
   const { pathname } = useLocation();
+
   return (
     <div className="container">
       <div className="main">{renderRoutes(routes)}</div>

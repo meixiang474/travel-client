@@ -1,6 +1,6 @@
 import { City } from "@/typings";
-import { Picker, List, Calendar, Button } from "antd-mobile";
-import { memo, useState } from "react";
+import { Picker, List, Calendar, Button, Toast } from "antd-mobile";
+import { memo, useEffect, useState } from "react";
 import { useHistory } from "react-router-dom";
 import qs from "qs";
 import { cleanObject } from "@/utils";
@@ -29,10 +29,13 @@ const Search = (props: SearchProps) => {
   };
 
   const handleClick = () => {
+    if (!times.includes("~")) {
+      return Toast.fail("请选择出租时间");
+    }
     const query = cleanObject({
       code: selectedCity[0],
-      startTime: times.includes("~") ? times.split("~")[0] : "",
-      endTime: times.includes("~") ? times.split("~")[1] : "",
+      startTime: times.split("~")[0],
+      endTime: times.split("~")[1],
     });
     history.push(`/search?${qs.stringify(query)}`);
   };
@@ -61,9 +64,9 @@ const Search = (props: SearchProps) => {
       <Calendar
         visible={dateShow}
         onCancel={handleDate}
-        onConfirm={() => {
+        onConfirm={(start, end) => {
           handleDate();
-          handleTimesChange();
+          handleTimesChange(start, end);
         }}
       />
     </div>

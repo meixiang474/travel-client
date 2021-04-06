@@ -10,3 +10,8 @@ declare module "*.jpeg" {
   const type: string;
   export default type;
 }
+
+declare module "*.webp" {
+  const type: string;
+  export default type;
+}
