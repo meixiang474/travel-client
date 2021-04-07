@@ -16,7 +16,7 @@ const SearchList = (props: SearchListProps) => {
   const location = useLocation();
   const history = useHistory();
 
-  useImg(".img", { loading }, [houses]);
+  useImg(".img", { loading, error: loading }, [houses]);
 
   return (
     <>

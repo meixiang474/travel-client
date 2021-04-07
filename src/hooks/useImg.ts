@@ -1,5 +1,5 @@
 /* eslint-disable react-hooks/exhaustive-deps */
-import { lazy, useEffect, useRef } from "react";
+import { useEffect, useRef } from "react";
 
 interface Options {
   loading?: string;
@@ -76,6 +76,7 @@ class ReactiveListener {
         this.elRender(this, "finish");
       },
       () => {
+        this.state.loaded = true;
         this.elRender(this, "error");
       }
     );
@@ -99,9 +100,14 @@ class LazyClass {
       }
     });
   }
-  add(el: Element) {
-    const els = this.listenerQueue.map((item) => item.el);
-    if (els.includes(el)) return;
+  add(el: Element, index: number) {
+    if (
+      this.listenerQueue[index] &&
+      this.listenerQueue[index].src === el.getAttribute("data-src") &&
+      el.getAttribute("data-src") === el.getAttribute("src")
+    ) {
+      return;
+    }
     const scrollParent = getScrollParent(el);
     if (scrollParent && !this.bindHandler) {
       this.bindHandler = true;
@@ -113,7 +119,7 @@ class LazyClass {
       options: this.options,
       elRender: this.elRender.bind(this),
     });
-    this.listenerQueue.push(listener);
+    this.listenerQueue[index] = listener;
     this.handleLazyLoad();
   }
   elRender(listener: ReactiveListener, state: string) {
@@ -141,8 +147,8 @@ export const useImg = (ele: string, options: Options, deps: any[] = []) => {
     if (!lazyRef.current) {
       lazyRef.current = new LazyClass(options);
     }
-    nodes.forEach((item) => {
-      lazyRef.current.add(item);
+    nodes.forEach((item, index) => {
+      lazyRef.current.add(item, index);
     });
   }, deps);
 };

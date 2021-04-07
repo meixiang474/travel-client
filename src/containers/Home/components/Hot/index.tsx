@@ -13,6 +13,7 @@ const Hot = (props: HotProps) => {
     ".img",
     {
       loading,
+      error: loading,
     },
     [hots]
   );
