@@ -6,6 +6,7 @@ export const downRefresh = (
   setLoading: (val: boolean) => void,
   step = 10
 ) => {
+  let startX = 0;
   let startY = 0;
   let distance = 0;
   let originalTop = element.offsetTop;
@@ -45,8 +46,12 @@ export const downRefresh = (
     };
 
     const touchMove = throttle((event: TouchEvent) => {
+      let pageX = event.touches[0].pageX;
       let pageY = event.touches[0].pageY;
       if (pageY > startY) {
+        if (Math.abs(pageX - startX) > Math.abs(pageY - startY)) {
+          return;
+        }
         if (pageY - startY > 100) {
           return;
         }
@@ -65,6 +70,7 @@ export const downRefresh = (
 
     if (element.scrollTop === 0) {
       startTop = originalTop;
+      startX = event.touches[0].pageX;
       startY = event.touches[0].pageY;
       element.addEventListener("touchmove", touchMove);
       element.addEventListener("touchend", touchEnd);

@@ -23,5 +23,6 @@ module.exports = {
     "no-eq-null": "off",
     eqeqeq: "off",
     "@typescript-eslint/explicit-member-accessibility": "off",
+    "no-new": "off",
   },
 };

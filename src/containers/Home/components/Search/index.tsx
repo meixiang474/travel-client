@@ -38,7 +38,7 @@ const Search = (props: SearchProps) => {
       endTime: times.split("~")[1],
     });
     history.push({
-      pathname: `search`,
+      pathname: `/search`,
       state: {
         from: "/",
       },

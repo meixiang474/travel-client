@@ -19,6 +19,7 @@ import { ServerMatch } from "@/typings";
 import { useLoadMore } from "@/hooks/useLoadMore";
 import SearchBar from "./components/SearchBar";
 import { DownRefreshLoading } from "@/components";
+import { storage } from "@/utils";
 
 const Search = () => {
   const { houses, refreshLoading, count } = useSelector<
@@ -50,9 +51,11 @@ const Search = () => {
   // ssr mount时不需要再加载数据
   useMount(() => {
     console.log(state);
-    if (state && state.from === "/") {
-      searchHouses();
+    if (!state || state.from === "/" || houses.length === 0) {
+      return searchHouses();
     }
+    (listContainerRef.current as HTMLElement).scrollTop =
+      storage.get("searchListScrollTop") || 0;
   });
 
   // 记录滚动位置
@@ -85,6 +88,7 @@ const Search = () => {
           endTime: new Date(endTime as string),
           cityCode: code as string,
           name: houseName,
+          setLoading,
         })
       );
     })
