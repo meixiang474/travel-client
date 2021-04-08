@@ -7,10 +7,12 @@ const { CleanWebpackPlugin } = require("clean-webpack-plugin");
 module.exports = merge(base, {
   mode: "development",
   target: "node",
-  entry: path.join(__dirname, "../../src/server/index.ts"),
+  entry: {
+    bundle: path.join(__dirname, "../../src/server/index.ts"),
+  },
   output: {
     path: path.join(__dirname, "../../build"),
-    filename: "bundle.js",
+    filename: "[name].js",
   },
   externals: [nodeExternal()],
   plugins: [

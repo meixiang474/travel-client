@@ -5,10 +5,12 @@ const HtmlPluginWebpack = require("html-webpack-plugin");
 
 module.exports = merge(base, {
   mode: "development",
-  entry: path.join(__dirname, "../../src/client/index.tsx"),
+  entry: {
+    index: path.join(__dirname, "../../src/client/index.tsx"),
+  },
   output: {
     path: path.join(__dirname, "../../public"),
-    filename: "index.js",
+    filename: "[name].js",
   },
   devServer: {
     open: true,

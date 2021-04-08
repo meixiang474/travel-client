@@ -6,7 +6,8 @@ import { StaticRouter as Router, Switch } from "react-router-dom";
 import { Provider } from "react-redux";
 import { renderRoutes } from "react-router-config";
 import { ServerStore } from "@/store";
-import { NewRouteConfig } from "@/routes";
+import { NewRouteConfig } from "@/server/routes";
+import { parallel } from "@/utils";
 
 const render = async (
   store: ServerStore,
@@ -25,14 +26,28 @@ const render = async (
     </div>
   );
 
-  let styles = "";
-  try {
-    const cssPath = path.join(__dirname, "../public/index.css");
-    await fs.promises.access(cssPath);
-    styles = await fs.promises.readFile(cssPath, "utf-8");
-  } finally {
-    res.setHeader("Content-Type", "text/html; charset=utf-8");
-    res.write(`
+  const cssFiles = (
+    await fs.promises.readdir(path.join(__dirname, "../public"))
+  ).filter((item) => path.extname(item) === ".css");
+  cssFiles.sort((a, b) => {
+    if (a === "vendors.css") {
+      return -1;
+    }
+    if (a === "index.css") {
+      return 1;
+    }
+    return 0;
+  });
+  const promises = cssFiles.map((file) => {
+    const filepath = path.join(__dirname, "../public", file);
+    return fs.promises.readFile(filepath, "utf-8");
+  });
+  const csses = await parallel(promises);
+
+  const styles = csses.join("\r\n");
+
+  res.setHeader("Content-Type", "text/html; charset=utf-8");
+  res.write(`
       <!DOCTYPE html>
       <html lang="en">
         <head>
@@ -58,16 +73,16 @@ const render = async (
         </head>
         <body>
       `);
-    stream.pipe(res, { end: false });
-    stream.on("end", () => {
-      res.write(`
+  stream.pipe(res, { end: false });
+  stream.on("end", () => {
+    res.write(`
           <script src="/index.js"></script>
+          <script src="/vendors.js"></script>
           </body>
         </html>
       `);
-      res.end();
-    });
-  }
+    res.end();
+  });
 };
 
 export default render;

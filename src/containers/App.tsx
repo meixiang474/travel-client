@@ -1,5 +1,5 @@
 import { renderRoutes, RouteConfigComponentProps } from "react-router-config";
-import { NewRouteConfig } from "../routes";
+import { NewRouteConfig } from "../server/routes";
 import { MenuBar } from "@/components";
 import { useLocation } from "react-router-dom";
 import "./App.less";

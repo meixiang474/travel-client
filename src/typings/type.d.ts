@@ -3,7 +3,7 @@ declare namespace React {
 }
 
 declare namespace SSR {
-  export default string;
+  export default boolean;
 }
 
 declare module "*.jpeg" {

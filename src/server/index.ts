@@ -2,7 +2,7 @@ import express from "express";
 import proxy from "express-http-proxy";
 import path from "path";
 import { matchRoutes } from "react-router-config";
-import routes from "../routes";
+import routes from "./routes";
 import render from "./utils";
 import { getServerStore, ServerStore } from "@/store";
 import { HOST } from "@/api";
