@@ -4,6 +4,7 @@ import { useImg } from "@/hooks";
 import loading from "@/assets/images/lazy.webp";
 import { useHistory, useLocation } from "react-router-dom";
 import { RefreshLoading } from "@/components";
+import qs from "qs";
 
 interface SearchListProps {
   houses: House[];
@@ -32,6 +33,7 @@ const SearchList = (props: SearchListProps) => {
                 state: {
                   from: `${location.pathname}${location.search}`,
                 },
+                search: `?${qs.stringify({ id: item.id })}`,
               });
             }}
           >

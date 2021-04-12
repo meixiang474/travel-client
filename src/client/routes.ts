@@ -28,6 +28,21 @@ const House = lazy(
       /* webpackChunkName: "house" */ /* webpackPrefetch: true */ "@/containers/House"
     )
 );
+
+const Login = lazy(
+  () =>
+    import(
+      /* webpackChunkName: "login" */ /* webpackPrefetch: true */ "@/containers/Login"
+    )
+);
+
+const Register = lazy(
+  () =>
+    import(
+      /* webpackChunkName: "register" */ /* webpackPrefetch: true */ "@/containers/Register"
+    )
+);
+
 const NotFound = lazy(
   () =>
     import(
@@ -70,6 +85,16 @@ const routes: NewRouteConfig[] = [
         key: "house",
         path: "/house",
         component: House,
+      },
+      {
+        key: "login",
+        path: "/login",
+        component: Login,
+      },
+      {
+        key: "register",
+        path: "/register",
+        component: Register,
       },
       {
         key: "notFound",

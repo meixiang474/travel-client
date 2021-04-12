@@ -3,7 +3,7 @@ import { ComponentType } from "react";
 import App from "@/App";
 import { resolveRem } from "@/utils";
 import "antd-mobile/dist/antd-mobile.less";
-import "swiper/css/swiper.css";
+import "swiper/swiper-bundle.css";
 import "@/assets/styles/global.less";
 
 resolveRem();

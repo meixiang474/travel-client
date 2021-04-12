@@ -1,55 +1,46 @@
 import { memo } from "react";
-import Swiper from "swiper";
+import SwiperCore, { Pagination, Autoplay } from "swiper";
+import { Swiper, SwiperSlide } from "swiper/react";
 import loading from "@/assets/images/lazy.webp";
-import { useMount } from "@/hooks";
+import { useImg } from "@/hooks";
 
-const Banner = () => {
-  useMount(() => {
-    let swiper: Swiper | null = new Swiper(".swiper-container", {
-      loop: true,
-      autoplay: {
-        delay: 1000,
-        stopOnLastSlide: false,
-        disableOnInteraction: false,
-      },
-      pagination: {
-        el: ".swiper-pagination",
-      },
-    });
-    return () => {
-      swiper = null;
-    };
-  });
+interface BannerProps {
+  images: string[];
+}
+
+SwiperCore.use([Pagination, Autoplay]);
+
+const Banner = (props: BannerProps) => {
+  const { images = [] } = props;
+
+  useImg(".img", { loading, error: loading }, [images]);
 
   return (
-    <div>
-      <div className="swiper-container">
-        <div className="swiper-wrapper">
-          <div className="swiper-slide">
-            <img
-              src={loading}
-              alt="banner"
-              style={{ width: "100%", height: "200px" }}
-            />
-          </div>
-          <div className="swiper-slide">
-            <img
-              src={loading}
-              alt="banner"
-              style={{ width: "100%", height: "200px" }}
-            />
-          </div>
-          <div className="swiper-slide">
-            <img
-              src={loading}
-              alt="banner"
-              style={{ width: "100%", height: "200px" }}
-            />
-          </div>
-        </div>
-        <div className="swiper-pagination"></div>
-      </div>
-    </div>
+    <Swiper
+      className="swiper"
+      loop
+      autoplay={{
+        delay: 1500,
+        stopOnLastSlide: false,
+        disableOnInteraction: false,
+      }}
+      pagination={{
+        clickable: true,
+      }}
+    >
+      {images.length === 0 && (
+        <SwiperSlide>
+          <img src={loading} />
+        </SwiperSlide>
+      )}
+      {images.map((item, index) => {
+        return (
+          <SwiperSlide key={index}>
+            <img data-src={item} src={loading} alt="banner" className="img" />
+          </SwiperSlide>
+        );
+      })}
+    </Swiper>
   );
 };
 

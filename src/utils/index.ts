@@ -9,3 +9,4 @@ export * from "./isVoid";
 export * from "./unPick";
 export * from "./debounce";
 export * from "./storage";
+export * from "./timer";

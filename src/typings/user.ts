@@ -1,13 +1,8 @@
-export interface ValidateAPI {
-  success: boolean;
-  data: {
-    login: boolean;
-  };
-}
-
-export interface LoginAPI {
-  success: boolean;
-  data: {
-    login: boolean;
-  };
+export interface UserInfo {
+  id: number;
+  username: string;
+  avatar: string;
+  phone: null | string;
+  createdAt: string;
+  updatedAt: string;
 }

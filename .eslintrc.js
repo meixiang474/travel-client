@@ -24,5 +24,7 @@ module.exports = {
     eqeqeq: "off",
     "@typescript-eslint/explicit-member-accessibility": "off",
     "no-new": "off",
+    "prefer-promise-reject-errors": "off",
+    "@typescript-eslint/prefer-optional-chain": "off",
   },
 };

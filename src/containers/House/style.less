@@ -7,29 +7,24 @@
   overflow: hidden;
   display: flex;
   flex-direction: column;
-  .house_header {
-    flex: 0 0 50px;
-    height: 50px;
-    width: 100%;
-    position: relative;
-    font-size: 20px;
-    text-align: center;
-    line-height: 50px;
-    .house-header-back {
-      position: absolute;
-      top: 0;
-      left: 0;
-      width: 50px;
-      height: 100%;
-      line-height: 50px;
-      text-align: center;
+  .swiper {
+    img {
+      width: 100%;
+      height: 211px;
     }
   }
   .house_footer {
     flex: 0 0 50px;
     height: 50px;
     width: 100%;
+    position: relative;
+    z-index: 99;
+    background-color: #fff;
+    font-size: 20px;
+    text-align: center;
+    line-height: 50px;
   }
+
   .house_main {
     flex: 1;
     .house_container {
@@ -37,9 +32,87 @@
       top: 50px;
       left: 0;
       width: 100%;
-      height: calc(100% - 100px);
+      height: calc(100% - 50px);
       overflow-y: auto;
       overflow-x: hidden;
+      .info {
+        padding: 20px;
+        font-size: 18px;
+        div {
+          font-weight: 700;
+          height: 18px;
+          display: flex;
+          justify-content: space-between;
+          margin-bottom: 10px;
+          span {
+            font-weight: 400;
+          }
+        }
+      }
+      .comment {
+        padding: 0 20px;
+        font-size: 18px;
+        font-weight: 700;
+        .comment-empty {
+          height: 50px;
+          line-height: 50px;
+          text-align: center;
+        }
+        .comment-list {
+          margin-top: 20px;
+          .comment-list-item {
+            position: relative;
+            margin-bottom: 20px;
+            display: flex;
+            img {
+              height: 50px;
+              width: 50px;
+              border-radius: 50%;
+              margin-right: 30px;
+            }
+            .comment-list-item-right {
+              flex: 1;
+              display: flex;
+              flex-direction: column;
+              justify-content: space-between;
+              .comment-right-top {
+                display: flex;
+                justify-content: space-between;
+              }
+              .comment-right-bottom {
+                font-weight: 400;
+              }
+            }
+          }
+          .comment-list-item::after {
+            content: "";
+            height: 1px;
+            width: 100%;
+            background-color: #ddd;
+            position: absolute;
+            bottom: -10px;
+          }
+        }
+      }
     }
+  }
+}
+.modal-comment {
+  padding: 20px;
+  height: 200px;
+  display: flex;
+  flex-direction: column;
+}
+.am-textarea-item {
+  padding: 0;
+  width: calc(100% - 2px);
+  margin-bottom: 20px;
+  .am-textarea-control {
+    width: 100%;
+  }
+  textarea {
+    text-indent: 20px;
+    width: calc(100% - 2px);
+    height: 100px;
   }
 }

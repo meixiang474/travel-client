@@ -6,18 +6,21 @@ import Header from "./components/Header";
 import Hot from "./components/Hot";
 import Search from "./components/Search";
 import * as HomeActions from "@/store/actions/home";
+import * as UserActions from "@/store/actions/user";
 import "./style.less";
 import { useMount } from "@/hooks";
 import { parallel } from "@/utils";
 import { useDownRefresh } from "@/hooks/useDownRefresh";
 import { ServerMatch } from "@/typings";
 import { DownRefreshLoading } from "@/components";
+import { useHistory } from "react-router";
 
 const Home = () => {
   const { selectedCity, times, cities, hots } = useSelector<
     RootState,
     RootState["home"]
   >((state) => state.home);
+  const history = useHistory();
   const dispatch = useDispatch<NewDispatch>();
   const homeRef = useRef<HTMLDivElement>(null);
 
@@ -54,11 +57,17 @@ const Home = () => {
     [dispatch]
   );
 
+  const logout = useCallback(() => {
+    dispatch(UserActions.logout()).then(() => {
+      history.push("/login");
+    });
+  }, [dispatch, history]);
+
   return (
     <div className="home">
       <DownRefreshLoading downRefreshLoading={refreshLoading} />
       <div className="home_container" ref={homeRef}>
-        <Header />
+        <Header logout={logout} />
         <Search
           cities={cities}
           times={times}

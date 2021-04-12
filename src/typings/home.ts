@@ -10,7 +10,7 @@ export interface House {
   address: string;
   price: number;
   cityCode: string;
-  showCount: 1;
+  showCount: number;
   url: string;
 }
 

@@ -7,6 +7,8 @@ import User from "../containers/User";
 import Search from "../containers/Search";
 import NotFound from "../containers/NotFound";
 import House from "../containers/House";
+import Login from "@/containers/Login";
+import Register from "@/containers/Register";
 
 export interface NewRouteConfig extends RouteConfig {
   loadData?: (store: ServerStore, router: any) => Promise<void>;
@@ -17,6 +19,7 @@ const routes: NewRouteConfig[] = [
     key: "app",
     path: "/",
     component: App,
+    loadData: App.loadData,
     routes: [
       {
         key: "home",
@@ -45,6 +48,17 @@ const routes: NewRouteConfig[] = [
         key: "house",
         path: "/house",
         component: House,
+        loadData: House.loadDada,
+      },
+      {
+        key: "login",
+        path: "/login",
+        component: Login,
+      },
+      {
+        key: "register",
+        path: "/register",
+        component: Register,
       },
       {
         key: "notFound",
