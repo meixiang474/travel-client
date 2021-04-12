@@ -14,3 +14,17 @@ export const validate = <T>(request: AxiosInstance) => {
 export const logout = <T>(request: AxiosInstance) => {
   return request.post<T, T>("/api/user/logout");
 };
+
+export const getUserInfo = <T>(
+  request: AxiosInstance,
+  data: { username: string }
+) => {
+  return request.post<T, T>("/api/user/userInfo", data);
+};
+
+export const register = <T>(
+  request: AxiosInstance,
+  data: { username: string; password: string }
+) => {
+  return request.post<T, T>("/api/user/register", data);
+};

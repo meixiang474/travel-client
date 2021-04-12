@@ -1,6 +1,7 @@
 import { useDebounceValue, useEffectSecond } from "@/hooks";
 import { Button, InputItem } from "antd-mobile";
 import { memo, useState } from "react";
+import { Link } from "react-router-dom";
 
 interface LoginFormProps {
   login: (username: string, password: string) => void;
@@ -68,6 +69,9 @@ const LoginForm = (props: LoginFormProps) => {
       <Button type="warning" onClick={handleLogin} loading={loading}>
         登录
       </Button>
+      <Link className="link" to="/register">
+        没有账号？去注册
+      </Link>
     </div>
   );
 };

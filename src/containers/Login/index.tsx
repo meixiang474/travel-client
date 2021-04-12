@@ -21,11 +21,11 @@ const Login = () => {
     (username: string, password: string) => {
       setLoading(true);
       dispatch(UserActions.login(username, password))
-        .then(() => {
-          history.push(state && state.from ? state.from : "/");
-        })
         .finally(() => {
           setLoading(false);
+        })
+        .then(() => {
+          history.push(state && state.from ? state.from : "/");
         });
     },
     [dispatch, history, state]

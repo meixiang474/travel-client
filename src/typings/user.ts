@@ -6,3 +6,16 @@ export interface UserInfo {
   createdAt: string;
   updatedAt: string;
 }
+
+export interface GetUserInfoAPI {
+  username: string;
+  avatar: string;
+}
+
+export interface RegisterAPI {
+  id: number;
+  username: string;
+  updatedAt: string;
+  createdAt: string;
+  avatar: string;
+}
