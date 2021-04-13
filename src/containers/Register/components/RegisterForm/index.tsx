@@ -4,7 +4,7 @@ import { memo, useState } from "react";
 import clientRequest from "@/client/request";
 import * as Apis from "@/api";
 import { GetUserInfoAPI } from "@/typings";
-import { Link } from "react-router-dom";
+import { Link, useLocation } from "react-router-dom";
 
 interface RegisterFormProps {
   register: (username: string, password: string) => void;
@@ -13,7 +13,7 @@ interface RegisterFormProps {
 
 const RegisterForm = (props: RegisterFormProps) => {
   const { register, loading } = props;
-
+  const { state } = useLocation<{ from: string; houseFrom: string | null }>();
   const [username, setUsername] = useState("");
   const [password, setPassword] = useState("");
   const [usernameError, setUsernameError] = useState("");
@@ -121,7 +121,7 @@ const RegisterForm = (props: RegisterFormProps) => {
           )}
         </div>
         <div className="password">
-          <InputItem value={password} onChange={setPassword}>
+          <InputItem value={password} onChange={setPassword} type="password">
             密码
           </InputItem>
           <div className="error">{passwordError}</div>
@@ -129,7 +129,7 @@ const RegisterForm = (props: RegisterFormProps) => {
         <Button type="warning" onClick={handleRegister} loading={loading}>
           注册
         </Button>
-        <Link className="link" to="/login">
+        <Link className="link" to={{ pathname: "/login", state }}>
           已有账号？去登录
         </Link>
       </div>

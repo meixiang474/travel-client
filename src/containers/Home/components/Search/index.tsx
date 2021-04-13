@@ -30,7 +30,7 @@ const Search = (props: SearchProps) => {
 
   const handleClick = () => {
     if (!times.includes("~")) {
-      return Toast.fail("请选择出租时间");
+      return Toast.fail("请选择出租时间", 1);
     }
     const query = cleanObject({
       code: selectedCity[0],

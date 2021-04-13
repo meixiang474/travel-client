@@ -9,7 +9,7 @@ import "./style.less";
 
 const Login = () => {
   const history = useHistory();
-  const { state } = useLocation<{ from: string }>();
+  const { state } = useLocation<{ from: string; houseFrom: string | null }>();
   const dispatch = useDispatch<NewDispatch>();
   const [loading, setLoading] = useState(false);
 
@@ -25,7 +25,12 @@ const Login = () => {
           setLoading(false);
         })
         .then(() => {
-          history.push(state && state.from ? state.from : "/");
+          history.push(
+            state && state.from ? state.from : "/",
+            state && state.houseFrom
+              ? { houseFrom: state.houseFrom }
+              : undefined
+          );
         });
     },
     [dispatch, history, state]

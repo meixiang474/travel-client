@@ -1,7 +1,7 @@
 import { useDebounceValue, useEffectSecond } from "@/hooks";
 import { Button, InputItem } from "antd-mobile";
 import { memo, useState } from "react";
-import { Link } from "react-router-dom";
+import { Link, useLocation } from "react-router-dom";
 
 interface LoginFormProps {
   login: (username: string, password: string) => void;
@@ -14,6 +14,7 @@ const LoginForm = (props: LoginFormProps) => {
   const [password, setPassword] = useState("");
   const [usernameError, setUsernameError] = useState("");
   const [passwordError, setPasswordError] = useState("");
+  const { state } = useLocation<{ from: string; houseFrom: string | null }>();
 
   const validatePassword = () => {
     if (password.length === 0) {
@@ -61,7 +62,7 @@ const LoginForm = (props: LoginFormProps) => {
         <div className="error">{usernameError}</div>
       </div>
       <div className="password">
-        <InputItem value={password} onChange={setPassword}>
+        <InputItem value={password} onChange={setPassword} type="password">
           密码
         </InputItem>
         <div className="error">{passwordError}</div>
@@ -69,7 +70,7 @@ const LoginForm = (props: LoginFormProps) => {
       <Button type="warning" onClick={handleLogin} loading={loading}>
         登录
       </Button>
-      <Link className="link" to="/register">
+      <Link className="link" to={{ pathname: "/register", state }}>
         没有账号？去注册
       </Link>
     </div>

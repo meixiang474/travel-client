@@ -2,7 +2,7 @@ import { AxiosInstance } from "axios";
 import { GetState, NewDispatch } from "..";
 import * as Apis from "@/api";
 import * as Types from "../constants";
-import { GetCommentsAPI, GetHouseInfoAPI } from "@/typings/house";
+import { GetCommentsAPI, GetHouseInfoAPI, OrderStatus } from "@/typings/house";
 import { timer } from "@/utils";
 
 export const changeHouseInfo = (payload: GetHouseInfoAPI) => {
@@ -77,6 +77,50 @@ export const refreshComments = (houseId: number) => {
           comments: [...comments, ...res.comments],
         })
       );
+    } catch (e) {
+      console.error(e);
+    }
+  };
+};
+
+export const changeOrderStatus = (payload: OrderStatus) => {
+  return {
+    type: Types.CHANGE_ORDER_STATUS,
+    payload,
+  };
+};
+
+export const getOrderStatus = (houseId: number) => {
+  return async (
+    dispatch: NewDispatch,
+    getState: GetState,
+    request: AxiosInstance
+  ) => {
+    try {
+      const res = await Apis.getOrderStatus<OrderStatus>(request, { houseId });
+      dispatch(changeOrderStatus(res));
+    } catch (e) {
+      console.error(e);
+    }
+  };
+};
+
+export const changeSelfComment = (payload: string) => {
+  return {
+    type: Types.CHANGE_SELF_COMMENT,
+    payload,
+  };
+};
+
+export const getSelfComment = (houseId: number) => {
+  return async (
+    dispatch: NewDispatch,
+    getState: GetState,
+    request: AxiosInstance
+  ) => {
+    try {
+      const res = await Apis.getSelfComment<string>(request, { houseId });
+      dispatch(changeSelfComment(res));
     } catch (e) {
       console.error(e);
     }

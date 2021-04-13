@@ -1,4 +1,4 @@
-import { Comment, GetHouseInfoAPI } from "@/typings";
+import { Comment, GetHouseInfoAPI, OrderStatus } from "@/typings";
 import { AnyAction } from "redux";
 import * as Types from "../constants";
 
@@ -8,6 +8,8 @@ export interface HouseState {
   comments: Comment[];
   pageIndex: number;
   pageSize: number;
+  selfComment: string;
+  orderStatus: OrderStatus;
 }
 
 const defaultState: HouseState = {
@@ -16,6 +18,8 @@ const defaultState: HouseState = {
   comments: [],
   pageIndex: 0,
   pageSize: 8,
+  selfComment: "",
+  orderStatus: "normal",
 };
 
 const reducer = (state = defaultState, action: AnyAction) => {
@@ -28,6 +32,12 @@ const reducer = (state = defaultState, action: AnyAction) => {
       state.comments = action.payload.comments;
       state.pageIndex = action.payload.pageIndex + 1;
       state.pageSize = action.payload.pageSize;
+      return state;
+    case Types.CHANGE_ORDER_STATUS:
+      state.orderStatus = action.payload;
+      return state;
+    case Types.CHANGE_SELF_COMMENT:
+      state.selfComment = action.payload;
       return state;
     default:
       return state;

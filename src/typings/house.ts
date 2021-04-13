@@ -30,3 +30,5 @@ export interface GetCommentsAPI {
   count: number;
   comments: Comment[];
 }
+
+export type OrderStatus = "normal" | "ordered" | "bought";

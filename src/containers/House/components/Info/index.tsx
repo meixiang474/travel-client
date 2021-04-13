@@ -1,13 +1,37 @@
 import { memo } from "react";
-import { Button } from "antd-mobile";
-import { GetHouseInfoAPI } from "@/typings/house";
+import { Button, Toast } from "antd-mobile";
+import { GetHouseInfoAPI, OrderStatus } from "@/typings/house";
+import { useAuth } from "@/hooks";
+import { useHistory, useLocation } from "react-router";
 
 interface InfoProps {
   houseInfo: Partial<GetHouseInfoAPI>;
+  orderStatus: OrderStatus;
+  setModalVisible: (val: boolean) => void;
+  addOrder: () => void;
 }
 
 const Info = (props: InfoProps) => {
-  const { houseInfo = {} } = props;
+  const { houseInfo = {}, orderStatus, setModalVisible } = props;
+  const history = useHistory();
+  const { pathname, search, state } = useLocation<{ from: string }>();
+  const [isLogin] = useAuth();
+  const buttonContent =
+    orderStatus === "normal"
+      ? "预定"
+      : orderStatus === "ordered"
+      ? "取消预定"
+      : "评论";
+
+  const handleClick = () => {
+    if (!isLogin) {
+      Toast.fail("请先登录", 1);
+      history.push("/login", {
+        from: `${pathname}${search}`,
+        houseFrom: state?.from || null,
+      });
+    }
+  };
 
   return (
     <div className="info">
@@ -27,8 +51,8 @@ const Info = (props: InfoProps) => {
       <div className="info-time">
         结束出租: <span>{houseInfo.endTime}</span>
       </div>
-      <Button className="info-btn" type="warning">
-        预定
+      <Button className="info-btn" type="warning" onClick={handleClick}>
+        {buttonContent}
       </Button>
     </div>
   );

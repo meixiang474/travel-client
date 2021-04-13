@@ -3,15 +3,15 @@ import { Modal, TextareaItem, Button } from "antd-mobile";
 
 interface FooterProps {
   addComment: () => void;
+  modalVisible: boolean;
+  setModalVisible: (val: boolean) => void;
+  selfComment: string;
 }
 
 const Footer = (props: FooterProps) => {
-  const { addComment } = props;
-  const [visible, setVisible] = useState(false);
+  const { addComment, modalVisible, setModalVisible, selfComment } = props;
 
-  const handleClick = () => {
-    setVisible(true);
-  };
+  console.log(1);
 
   const handleChange = (val?: string) => {
     console.log(val);
@@ -20,10 +20,10 @@ const Footer = (props: FooterProps) => {
   return (
     <>
       <Modal
-        visible={visible}
+        visible={modalVisible}
         popup
         closable
-        onClose={() => setVisible(false)}
+        onClose={() => setModalVisible(false)}
         animationType="slide-up"
       >
         <div className="modal-comment">
@@ -32,12 +32,13 @@ const Footer = (props: FooterProps) => {
             count={200}
             onChange={handleChange}
             style={{ border: "1px solid #ccc" }}
+            defaultValue={selfComment}
           />
           <Button
             className="comment-btn"
             type="warning"
             onClick={() => {
-              setVisible(false);
+              setModalVisible(false);
               addComment();
             }}
           >

@@ -3,7 +3,7 @@ import Footer from "./components/Footer";
 import Info from "./components/Info";
 import List from "./components/List";
 import "./style.less";
-import { useCallback, useRef, useState } from "react";
+import { useCallback, useRef, useState, useMemo } from "react";
 import { useCallbackRef, useDownRefresh, useLoadMore, useMount } from "@/hooks";
 import { DownRefreshLoading, Header } from "@/components";
 import { useDispatch, useSelector } from "react-redux";
@@ -17,16 +17,21 @@ import { ServerMatch } from "@/typings";
 
 const House = () => {
   const dispatch = useDispatch<NewDispatch>();
-  const { houseInfo, comments, commentsCount } = useSelector<
-    RootState,
-    RootState["house"]
-  >((state) => state.house);
+  const {
+    houseInfo,
+    comments,
+    commentsCount,
+    selfComment,
+    orderStatus,
+  } = useSelector<RootState, RootState["house"]>((state) => state.house);
   const history = useHistory();
-  const { search, state } = useLocation<{ from: string }>();
+  const { search, state } = useLocation<{ from: string; houseFrom: string }>();
   const containerRef = useRef<HTMLDivElement>(null);
+  const query = useMemo(() => cleanObject(qs.parse(search.slice(1))), [search]);
 
   const [pageLoading, setPageLoading] = useState(false);
   const [refreshLoading, setRefreshLoading] = useState(false);
+  const [modalVisible, setModalVisible] = useState(false);
 
   const downRefreshLoading = useDownRefresh(containerRef, () => {
     return fetchData();
@@ -34,26 +39,28 @@ const House = () => {
 
   const fetchData = () => {
     setPageLoading(true);
-    const query = cleanObject(qs.parse(search.slice(1)));
     return parallel([
       dispatch(HouseActions.getHouseInfo(query.id)),
       dispatch(HouseActions.getComments(query.id)),
+      dispatch(HouseActions.getOrderStatus(query.id)),
+      dispatch(HouseActions.getSelfComment(query.id)),
     ]).then(resolveFetchFail);
   };
 
   const resolveFetchFail = (val: any[]) => {
     setPageLoading(false);
     if (val[0]) {
-      Toast.fail("获取民宿信息失败");
+      Toast.fail("获取民宿信息失败", 1);
     } else if (val[1]) {
-      Toast.fail("获取评论列表失败");
+      Toast.fail("获取评论列表失败", 1);
     }
   };
+
+  console.log(orderStatus, selfComment);
 
   useLoadMore(
     containerRef,
     useCallbackRef(() => {
-      const query = cleanObject(qs.parse(search.slice(1)));
       if (refreshLoading || commentsCount === comments.length) {
         return;
       }
@@ -68,15 +75,18 @@ const House = () => {
     fetchData();
   });
 
-  const addComment = () => {
-    const query = cleanObject(qs.parse(search.slice(1)));
+  const addOrder = useCallback(() => {}, []);
+
+  const addComment = useCallback(() => {
     dispatch(HouseActions.getComments(query.id)).then(() => {
       (containerRef.current as HTMLElement).scrollTop = 234;
     });
-  };
+  }, []);
 
   const handleBack = useCallback(() => {
-    history.push(state?.from || "/search", { from: "/house" });
+    history.push(state?.from || state?.houseFrom || "/search", {
+      from: "/house",
+    });
   }, [history, state]);
 
   return (
@@ -90,7 +100,12 @@ const House = () => {
           ) : (
             <>
               <Banner images={houseInfo?.images || []} />
-              <Info houseInfo={houseInfo || {}} />
+              <Info
+                houseInfo={houseInfo || {}}
+                orderStatus={orderStatus}
+                setModalVisible={setModalVisible}
+                addOrder={addOrder}
+              />
               <List
                 hasMore={commentsCount > comments.length}
                 comments={comments}
@@ -100,7 +115,12 @@ const House = () => {
           )}
         </div>
       </div>
-      <Footer addComment={addComment} />
+      <Footer
+        addComment={addComment}
+        modalVisible={modalVisible}
+        setModalVisible={setModalVisible}
+        selfComment={selfComment}
+      />
     </div>
   );
 };
@@ -109,6 +129,8 @@ House.loadDada = (store: ServerStore, match: ServerMatch) => {
   return parallel([
     store.dispatch(HouseActions.getHouseInfo(match.query.id)),
     store.dispatch(HouseActions.getComments(match.query.id)),
+    store.dispatch(HouseActions.getSelfComment(match.query.id)),
+    store.dispatch(HouseActions.getOrderStatus(match.query.id)),
   ]);
 };
 

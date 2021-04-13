@@ -24,13 +24,13 @@ export const login = (username: string, password: string) => {
     } catch (e) {
       console.error(e);
       if (e.status === 502) {
-        Toast.fail("用户名不存在");
+        Toast.fail("用户名不存在", 1);
       }
       if (e.status === 501) {
-        Toast.fail("密码错误");
+        Toast.fail("密码错误", 1);
       }
       if (e.status === 500) {
-        Toast.fail("用户名密码格式错误");
+        Toast.fail("用户名密码格式错误", 1);
       }
       return Promise.reject(e);
     }

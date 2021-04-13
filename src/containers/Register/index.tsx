@@ -1,6 +1,6 @@
 import { useCallback, useState } from "react";
 import { Header } from "@/components";
-import { useHistory } from "react-router-dom";
+import { useHistory, useLocation } from "react-router-dom";
 import RegisterForm from "./components/RegisterForm";
 import clientRequest from "@/client/request";
 import * as Apis from "@/api";
@@ -13,6 +13,7 @@ import { Toast } from "antd-mobile";
 
 const Register = () => {
   const history = useHistory();
+  const { state } = useLocation<{ from: string; houseFrom: string | null }>();
   const [loading, setLoading] = useState(false);
   const dispatch = useDispatch<NewDispatch>();
   const handleBack = useCallback(() => {
@@ -29,17 +30,22 @@ const Register = () => {
         .then(() => {
           return dispatch(UserActions.login(username, password))
             .then(() => {
-              Toast.success("注册成功，已为您自动登录");
-              history.push("/");
+              Toast.success("注册成功，已为您自动登录", 1);
+              history.push(
+                state && state.from ? state.from : "/",
+                state && state.houseFrom
+                  ? { houseFrom: state.houseFrom }
+                  : undefined
+              );
             })
             .catch((e) => e);
         })
         .catch((e) => {
           console.error(e);
-          Toast.fail("注册失败");
+          Toast.fail("注册失败", 1);
         });
     },
-    [dispatch, history]
+    [dispatch, history, state]
   );
 
   return (

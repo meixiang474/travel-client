@@ -13,3 +13,17 @@ export const getComments = <T>(
 ) => {
   return request.post<T, T>("/api/comment/lists", data);
 };
+
+export const getOrderStatus = <T>(
+  request: AxiosInstance,
+  data: { houseId: number }
+) => {
+  return request.post<T, T>("/api/order/status", data);
+};
+
+export const getSelfComment = <T>(
+  request: AxiosInstance,
+  data: { houseId: number }
+) => {
+  return request.post<T, T>("/api/comment/getSelfComment", data);
+};
