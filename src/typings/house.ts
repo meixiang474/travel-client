@@ -32,3 +32,12 @@ export interface GetCommentsAPI {
 }
 
 export type OrderStatus = "normal" | "ordered" | "bought";
+
+export interface AddOrderAPI {
+  id: number;
+  userId: number;
+  houseId: number;
+  isPayed: boolean;
+  updatedAt: string;
+  createdAt: string;
+}

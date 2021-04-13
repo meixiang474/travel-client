@@ -9,10 +9,19 @@ interface InfoProps {
   orderStatus: OrderStatus;
   setModalVisible: (val: boolean) => void;
   addOrder: () => void;
+  deleteOrder: () => void;
+  buttonLoading: boolean;
 }
 
 const Info = (props: InfoProps) => {
-  const { houseInfo = {}, orderStatus, setModalVisible } = props;
+  const {
+    houseInfo = {},
+    orderStatus,
+    setModalVisible,
+    buttonLoading,
+    addOrder,
+    deleteOrder,
+  } = props;
   const history = useHistory();
   const { pathname, search, state } = useLocation<{ from: string }>();
   const [isLogin] = useAuth();
@@ -30,6 +39,17 @@ const Info = (props: InfoProps) => {
         from: `${pathname}${search}`,
         houseFrom: state?.from || null,
       });
+      return;
+    }
+    switch (orderStatus) {
+      case "ordered":
+        deleteOrder();
+        break;
+      case "normal":
+        addOrder();
+        break;
+      default:
+        break;
     }
   };
 
@@ -51,7 +71,12 @@ const Info = (props: InfoProps) => {
       <div className="info-time">
         结束出租: <span>{houseInfo.endTime}</span>
       </div>
-      <Button className="info-btn" type="warning" onClick={handleClick}>
+      <Button
+        loading={buttonLoading}
+        className="info-btn"
+        type="warning"
+        onClick={handleClick}
+      >
         {buttonContent}
       </Button>
     </div>

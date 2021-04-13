@@ -25,13 +25,17 @@ const House = () => {
     orderStatus,
   } = useSelector<RootState, RootState["house"]>((state) => state.house);
   const history = useHistory();
-  const { search, state } = useLocation<{ from: string; houseFrom: string }>();
+  const { search, state, pathname } = useLocation<{
+    from: string;
+    houseFrom: string;
+  }>();
   const containerRef = useRef<HTMLDivElement>(null);
   const query = useMemo(() => cleanObject(qs.parse(search.slice(1))), [search]);
 
   const [pageLoading, setPageLoading] = useState(false);
   const [refreshLoading, setRefreshLoading] = useState(false);
   const [modalVisible, setModalVisible] = useState(false);
+  const [buttonLoading, setButtonLoading] = useState(false);
 
   const downRefreshLoading = useDownRefresh(containerRef, () => {
     return fetchData();
@@ -75,7 +79,41 @@ const House = () => {
     fetchData();
   });
 
-  const addOrder = useCallback(() => {}, []);
+  const resolveButtonFail = useCallback(
+    (e, content: string) => {
+      if (e.status === 403) {
+        Toast.fail("请先登录", 1);
+        history.push("/login", {
+          from: `${pathname}${search}`,
+          houseFrom: state?.from || null,
+        });
+      }
+      Toast.fail(content);
+    },
+    [history, pathname, search, state]
+  );
+
+  const addOrder = useCallback(() => {
+    setButtonLoading(true);
+    dispatch(HouseActions.addOrder(parseFloat(query.id)))
+      .finally(() => {
+        setButtonLoading(false);
+      })
+      .catch((e) => {
+        resolveButtonFail(e, "预定失败");
+      });
+  }, [query.id, resolveButtonFail, dispatch]);
+
+  const deleteOrder = useCallback(() => {
+    setButtonLoading(true);
+    dispatch(HouseActions.deleteOrder(parseFloat(query.id)))
+      .finally(() => {
+        setButtonLoading(false);
+      })
+      .catch((e) => {
+        resolveButtonFail(e, "取消预定失败");
+      });
+  }, [query.id, resolveButtonFail, dispatch]);
 
   const addComment = useCallback(() => {
     dispatch(HouseActions.getComments(query.id)).then(() => {
@@ -105,6 +143,8 @@ const House = () => {
                 orderStatus={orderStatus}
                 setModalVisible={setModalVisible}
                 addOrder={addOrder}
+                deleteOrder={deleteOrder}
+                buttonLoading={buttonLoading}
               />
               <List
                 hasMore={commentsCount > comments.length}

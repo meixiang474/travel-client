@@ -2,7 +2,12 @@ import { AxiosInstance } from "axios";
 import { GetState, NewDispatch } from "..";
 import * as Apis from "@/api";
 import * as Types from "../constants";
-import { GetCommentsAPI, GetHouseInfoAPI, OrderStatus } from "@/typings/house";
+import {
+  AddOrderAPI,
+  GetCommentsAPI,
+  GetHouseInfoAPI,
+  OrderStatus,
+} from "@/typings/house";
 import { timer } from "@/utils";
 
 export const changeHouseInfo = (payload: GetHouseInfoAPI) => {
@@ -123,6 +128,58 @@ export const getSelfComment = (houseId: number) => {
       dispatch(changeSelfComment(res));
     } catch (e) {
       console.error(e);
+    }
+  };
+};
+
+export const addComment = (houseId: number, msg: string) => {
+  return async (
+    dispatch: NewDispatch,
+    getState: GetState,
+    request: AxiosInstance
+  ) => {
+    try {
+      await Apis.addComment<string>(request, { houseId, msg });
+      dispatch(changeSelfComment(msg));
+      const res = await Apis.getComments<GetCommentsAPI>(request, { houseId });
+      dispatch(changeComments(res));
+    } catch (e) {
+      if (e.status === 403) {
+        return Promise.reject(e);
+      }
+      console.error(e);
+    }
+  };
+};
+
+export const addOrder = (houseId: number) => {
+  return async (
+    dispatch: NewDispatch,
+    getState: GetState,
+    request: AxiosInstance
+  ) => {
+    try {
+      await Apis.addOrder<AddOrderAPI>(request, { houseId });
+      const res = await Apis.getOrderStatus<OrderStatus>(request, { houseId });
+      dispatch(changeOrderStatus(res));
+    } catch (e) {
+      return Promise.reject(e);
+    }
+  };
+};
+
+export const deleteOrder = (houseId: number) => {
+  return async (
+    dispatch: NewDispatch,
+    getState: GetState,
+    request: AxiosInstance
+  ) => {
+    try {
+      await Apis.deleteOrder<boolean>(request, { houseId });
+      const res = await Apis.getOrderStatus<OrderStatus>(request, { houseId });
+      dispatch(changeOrderStatus(res));
+    } catch (e) {
+      return Promise.reject(e);
     }
   };
 };

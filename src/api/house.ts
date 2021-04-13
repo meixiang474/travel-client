@@ -27,3 +27,24 @@ export const getSelfComment = <T>(
 ) => {
   return request.post<T, T>("/api/comment/getSelfComment", data);
 };
+
+export const addComment = <T>(
+  request: AxiosInstance,
+  data: { houseId: number; msg: string }
+) => {
+  return request.post<T, T>("/api/comment/add", data);
+};
+
+export const addOrder = <T>(
+  request: AxiosInstance,
+  data: { houseId: number }
+) => {
+  return request.post<T, T>("/api/order/addOrder", data);
+};
+
+export const deleteOrder = <T>(
+  request: AxiosInstance,
+  data: { houseId: number }
+) => {
+  return request.post<T, T>("/api/order/deleteOrder", data);
+};
