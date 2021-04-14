@@ -21,9 +21,9 @@ if (SSR) {
 }
 
 if ((module as any).hot) {
-  (module as any).hot.accept(["@/App.tsx"], () => {
+  (module as any).hot.accept(["./App.tsx"], () => {
     // eslint-disable-next-line @typescript-eslint/no-require-imports
-    const NextApp = require("@/App").default;
+    const NextApp = require("./App").default;
     render(NextApp);
   });
 }
