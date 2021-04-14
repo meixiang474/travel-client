@@ -1,4 +1,4 @@
-import { memo, useState } from "react";
+import { memo } from "react";
 import { Modal, TextareaItem, Button } from "antd-mobile";
 
 interface FooterProps {
@@ -10,8 +10,6 @@ interface FooterProps {
 
 const Footer = (props: FooterProps) => {
   const { addComment, modalVisible, setModalVisible, selfComment } = props;
-
-  console.log(1);
 
   const handleChange = (val?: string) => {
     console.log(val);

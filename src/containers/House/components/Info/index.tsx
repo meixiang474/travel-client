@@ -33,6 +33,9 @@ const Info = (props: InfoProps) => {
       : "评论";
 
   const handleClick = () => {
+    if (buttonLoading) {
+      return;
+    }
     if (!isLogin) {
       Toast.fail("请先登录", 1);
       history.push("/login", {

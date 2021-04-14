@@ -1,4 +1,4 @@
-import { AxiosInstance } from "axios";
+import axios, { AxiosInstance } from "axios";
 import { GetState, NewDispatch } from "..";
 import * as Apis from "@/api";
 import * as Types from "../constants";
@@ -163,7 +163,10 @@ export const addOrder = (houseId: number) => {
       const res = await Apis.getOrderStatus<OrderStatus>(request, { houseId });
       dispatch(changeOrderStatus(res));
     } catch (e) {
-      return Promise.reject(e);
+      if (!axios.isCancel(e)) {
+        return Promise.reject(e);
+      }
+      console.error(e);
     }
   };
 };
@@ -179,7 +182,10 @@ export const deleteOrder = (houseId: number) => {
       const res = await Apis.getOrderStatus<OrderStatus>(request, { houseId });
       dispatch(changeOrderStatus(res));
     } catch (e) {
-      return Promise.reject(e);
+      if (!axios.isCancel(e)) {
+        return Promise.reject(e);
+      }
+      console.error(e);
     }
   };
 };

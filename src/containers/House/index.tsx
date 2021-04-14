@@ -122,6 +122,7 @@ const House = () => {
   }, []);
 
   const handleBack = useCallback(() => {
+    console.log(1);
     history.push(state?.from || state?.houseFrom || "/search", {
       from: "/house",
     });

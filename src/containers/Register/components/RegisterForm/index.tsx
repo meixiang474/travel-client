@@ -1,7 +1,7 @@
 import { useDebounceValue, useEffectSecond } from "@/hooks";
 import { Button, InputItem, Icon, Toast } from "antd-mobile";
 import { memo, useState } from "react";
-import clientRequest from "@/client/request";
+import { clientRequest } from "@/client/store";
 import * as Apis from "@/api";
 import { GetUserInfoAPI } from "@/typings";
 import { Link, useLocation } from "react-router-dom";
@@ -93,6 +93,9 @@ const RegisterForm = (props: RegisterFormProps) => {
   }, [debouncePassword]);
 
   const handleRegister = () => {
+    if (loading) {
+      return;
+    }
     const isUsernameNotEmpty = validateUsernameEmpty();
     const isPasswordNotEmpty = validatePasswordEmpty();
     if (

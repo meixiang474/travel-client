@@ -1,5 +1,5 @@
 import { Toast } from "antd-mobile";
-import { AxiosInstance } from "axios";
+import axios, { AxiosInstance } from "axios";
 import { GetState, NewDispatch } from "..";
 import * as Apis from "@/api";
 import { UserInfo } from "@/typings";
@@ -32,7 +32,9 @@ export const login = (username: string, password: string) => {
       if (e.status === 500) {
         Toast.fail("用户名密码格式错误", 1);
       }
-      return Promise.reject(e);
+      if (!axios.isCancel(e)) {
+        return Promise.reject(e);
+      }
     }
   };
 };

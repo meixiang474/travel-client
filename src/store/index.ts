@@ -3,7 +3,6 @@ import thunk, { ThunkDispatch } from "redux-thunk";
 import logger from "redux-logger";
 import reducer from "./reducers";
 import createServerRequst from "@/server/request";
-import clientRequest from "@/client/request";
 import { Request } from "express";
 import { AxiosInstance } from "axios";
 
@@ -20,7 +19,7 @@ export const getServerStore = (req: Request) => {
   )(createStore)(reducer);
 };
 
-export const getClientStore = () => {
+export const getClientStore = (clientRequest: AxiosInstance) => {
   const defaultState = window.context?.state || {};
   return applyMiddleware<NewDispatch, RootState>(
     thunk.withExtraArgument(clientRequest),

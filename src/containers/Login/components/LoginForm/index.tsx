@@ -46,6 +46,9 @@ const LoginForm = (props: LoginFormProps) => {
   }, [debounceUsername]);
 
   const handleLogin = () => {
+    if (loading) {
+      return;
+    }
     const isPasswordCorrect = validatePassword();
     const isUsernameCorrect = validateUsername();
     if (isPasswordCorrect && isUsernameCorrect) {

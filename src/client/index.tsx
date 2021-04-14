@@ -1,6 +1,6 @@
 import ReactDOM from "react-dom";
 import { ComponentType } from "react";
-import App from "@/App";
+import App from "./App";
 import { resolveRem } from "@/utils";
 import "antd-mobile/dist/antd-mobile.less";
 import "swiper/swiper-bundle.css";

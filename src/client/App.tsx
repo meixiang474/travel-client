@@ -1,12 +1,10 @@
-import routes from "./client/routes";
+import routes from "./routes";
 import { renderRoutes } from "react-router-config";
 import { Provider } from "react-redux";
 import { BrowserRouter as Router, Switch } from "react-router-dom";
-import { getClientStore } from "@/store";
 import { Suspense } from "react";
-import { Loading } from "./components";
-
-const store = getClientStore();
+import { Loading } from "../components";
+import { store } from "./store";
 
 const App = () => {
   return (

@@ -5,12 +5,14 @@ import homeReducer, { HomeState } from "./home";
 import searchReducer, { SearchState } from "./search";
 import houseReducer, { HouseState } from "./house";
 import userReducer, { UserState } from "./user";
+import cancelReducer, { CancelState } from "./cancel";
 
 export interface RootState {
   home: HomeState;
   search: SearchState;
   house: HouseState;
   user: UserState;
+  cancel: CancelState;
 }
 
 const reducer: Reducer<RootState, AnyAction> = combineReducers(produce, {
@@ -18,6 +20,7 @@ const reducer: Reducer<RootState, AnyAction> = combineReducers(produce, {
   search: searchReducer,
   house: houseReducer,
   user: userReducer,
+  cancel: cancelReducer,
 });
 
 export default reducer;

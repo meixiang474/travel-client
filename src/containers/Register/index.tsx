@@ -2,7 +2,7 @@ import { useCallback, useState } from "react";
 import { Header } from "@/components";
 import { useHistory, useLocation } from "react-router-dom";
 import RegisterForm from "./components/RegisterForm";
-import clientRequest from "@/client/request";
+import { clientRequest } from "@/client/store";
 import * as Apis from "@/api";
 import * as UserActions from "@/store/actions/user";
 import "./style.less";
