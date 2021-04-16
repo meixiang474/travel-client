@@ -35,7 +35,9 @@ export const getHouseInfo = (id: number) => {
       );
     } catch (e) {
       console.error(e);
-      return Promise.reject(e);
+      if (!axios.isCancel(e)) {
+        return Promise.reject(e);
+      }
     }
   };
 };
@@ -58,7 +60,9 @@ export const getComments = (houseId: number) => {
       dispatch(changeComments(res));
     } catch (e) {
       console.error(e);
-      return Promise.reject(e);
+      if (!axios.isCancel(e)) {
+        return Promise.reject(e);
+      }
     }
   };
 };

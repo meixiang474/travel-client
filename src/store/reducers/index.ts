@@ -6,6 +6,7 @@ import searchReducer, { SearchState } from "./search";
 import houseReducer, { HouseState } from "./house";
 import userReducer, { UserState } from "./user";
 import cancelReducer, { CancelState } from "./cancel";
+import orderReducer, { OrderState } from "./order";
 
 export interface RootState {
   home: HomeState;
@@ -13,6 +14,7 @@ export interface RootState {
   house: HouseState;
   user: UserState;
   cancel: CancelState;
+  order: OrderState;
 }
 
 const reducer: Reducer<RootState, AnyAction> = combineReducers(produce, {
@@ -21,6 +23,7 @@ const reducer: Reducer<RootState, AnyAction> = combineReducers(produce, {
   house: houseReducer,
   user: userReducer,
   cancel: cancelReducer,
+  order: orderReducer,
 });
 
 export default reducer;
