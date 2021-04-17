@@ -11,7 +11,6 @@ clientRequest.interceptors.request.use((config) => {
   const key = `${config.method}${config.url}`;
   const { cancels } = store.getState().cancel;
   if (cancels[key]) {
-    console.log(2);
     (cancels[key] as Canceler)();
   }
   store.dispatch(

@@ -2,7 +2,7 @@ import { createStore, applyMiddleware, AnyAction } from "redux";
 import thunk, { ThunkDispatch } from "redux-thunk";
 import logger from "redux-logger";
 import reducer from "./reducers";
-import createServerRequst from "@/server/request";
+import createServerRequest from "@/server/request";
 import { Request } from "express";
 import { AxiosInstance } from "axios";
 
@@ -14,7 +14,7 @@ export type NewDispatch = ThunkDispatch<RootState, AxiosInstance, AnyAction>;
 
 export const getServerStore = (req: Request) => {
   return applyMiddleware<NewDispatch, RootState>(
-    thunk.withExtraArgument(createServerRequst(req)),
+    thunk.withExtraArgument(createServerRequest(req)),
     logger
   )(createStore)(reducer);
 };
