@@ -21,6 +21,7 @@ export const login = (username: string, password: string) => {
     try {
       const res = await Apis.login<UserInfo>(request, { username, password });
       dispatch(changeUserInfo(res));
+      Toast.success("登录成功", 1);
     } catch (e) {
       console.error(e);
       if (e.status === 502) {

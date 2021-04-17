@@ -21,17 +21,20 @@ const App = (props: RouteConfigComponentProps) => {
 
   useMount(() => {
     if (!SSR) {
+      console.log(1);
       dispatch(UserActions.validate());
     }
     const unlisten = history.listen(() => {
       // eslint-disable-next-line @typescript-eslint/no-require-imports
       const { cancels } = require("@/client/store").store.getState().cancel;
       console.log(3, cancels);
-      Object.keys(cancels).forEach((key) => {
-        if (cancels[key]) {
-          (cancels[key] as Canceler)();
-        }
-      });
+      Object.keys(cancels)
+        .filter((item) => item !== "post/api/user/detail")
+        .forEach((key) => {
+          if (cancels[key]) {
+            (cancels[key] as Canceler)();
+          }
+        });
       dispatch(CancelActions.changeCancels({}));
     });
     return () => {
