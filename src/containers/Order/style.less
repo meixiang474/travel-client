@@ -2,11 +2,66 @@
   position: relative;
   width: 100%;
   height: 100%;
+  overflow: hidden;
   .tab {
-    .test {
-      position: absolute;
+    overflow-x: hidden;
+    overflow-y: auto;
+    width: 100%;
+    height: 100%;
+    .order-list {
       width: 100%;
-      height: 100%;
+      box-sizing: border-box;
+      padding: 10px;
+      .order-item {
+        width: 100%;
+        display: flex;
+        align-items: center;
+        font-size: 18px;
+        margin-bottom: 10px;
+        background-color: #fff;
+        box-sizing: border-box;
+        padding: 10px;
+        .order-img {
+          width: 132px;
+          height: 80px;
+          border-radius: 10px;
+        }
+        .order-center {
+          flex: 1;
+          height: 60px;
+          display: flex;
+          flex-direction: column;
+          justify-content: space-between;
+          margin-left: 20px;
+          margin-right: 40px;
+        }
+      }
+    }
+  }
+}
+
+.modal-container {
+  padding: 10px;
+  box-sizing: border-box;
+  height: 190px;
+  .modal-header {
+    font-size: 20px;
+    font-weight: 700;
+    margin-bottom: 20px;
+  }
+  .modal-center {
+    font-size: 16px;
+    margin-bottom: 40px;
+  }
+  .modal-footer {
+    display: flex;
+    width: 100%;
+    justify-content: space-between;
+    padding: 0 50px;
+    box-sizing: border-box;
+    .am-button {
+      flex: 0 0 100px;
+      width: 100px;
     }
   }
 }

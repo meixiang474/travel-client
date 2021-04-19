@@ -32,6 +32,7 @@ const routes: NewRouteConfig[] = [
         key: "order",
         path: "/order",
         component: Order,
+        loadData: Order.loadData,
       },
       {
         key: "user",

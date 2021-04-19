@@ -27,7 +27,6 @@ const App = (props: RouteConfigComponentProps) => {
     const unlisten = history.listen(() => {
       // eslint-disable-next-line @typescript-eslint/no-require-imports
       const { cancels } = require("@/client/store").store.getState().cancel;
-      console.log(3, cancels);
       Object.keys(cancels)
         .filter((item) => item !== "post/api/user/detail")
         .forEach((key) => {

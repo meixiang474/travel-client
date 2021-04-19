@@ -9,9 +9,13 @@ export const useLoadMore = (
 ) => {
   useMount(() => {
     const element = elementRef.current as HTMLElement;
-    loadMore(element, callback);
+    if (element) {
+      loadMore(element, callback);
+    }
     return () => {
-      element.removeEventListener("scroll", callback);
+      if (element) {
+        element.removeEventListener("scroll", callback);
+      }
     };
   });
 };
