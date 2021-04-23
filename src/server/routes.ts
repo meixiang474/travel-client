@@ -9,6 +9,7 @@ import NotFound from "../containers/NotFound";
 import House from "../containers/House";
 import Login from "@/containers/Login";
 import Register from "@/containers/Register";
+import Edit from "@/containers/Edit";
 
 export interface NewRouteConfig extends RouteConfig {
   loadData?: (store: ServerStore, router: any) => Promise<void>;
@@ -60,6 +61,11 @@ const routes: NewRouteConfig[] = [
         key: "register",
         path: "/register",
         component: Register,
+      },
+      {
+        key: "edit",
+        path: "/edit",
+        component: Edit,
       },
       {
         key: "notFound",

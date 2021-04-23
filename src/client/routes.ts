@@ -43,6 +43,13 @@ const Register = lazy(
     )
 );
 
+const Edit = lazy(
+  () =>
+    import(
+      /* webpackChunkName: "edit" */ /* webpackPrefetch: true */ "@/containers/Edit"
+    )
+);
+
 const NotFound = lazy(
   () =>
     import(
@@ -95,6 +102,11 @@ const routes: NewRouteConfig[] = [
         key: "register",
         path: "/register",
         component: Register,
+      },
+      {
+        key: "edit",
+        path: "/edit",
+        component: Edit,
       },
       {
         key: "notFound",
