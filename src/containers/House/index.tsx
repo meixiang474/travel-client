@@ -14,6 +14,7 @@ import qs from "qs";
 import { cleanObject, parallel } from "@/utils";
 import { ActivityIndicator, Toast } from "antd-mobile";
 import { ServerMatch } from "@/typings";
+import xss from "xss";
 
 const House = () => {
   const dispatch = useDispatch<NewDispatch>();
@@ -30,12 +31,13 @@ const House = () => {
     houseFrom: string;
   }>();
   const containerRef = useRef<HTMLDivElement>(null);
-  const query = useMemo(() => cleanObject(qs.parse(search.slice(1))), [search]);
+  const query = cleanObject(qs.parse(search.slice(1)));
 
   const [pageLoading, setPageLoading] = useState(false);
   const [refreshLoading, setRefreshLoading] = useState(false);
   const [modalVisible, setModalVisible] = useState(false);
   const [buttonLoading, setButtonLoading] = useState(false);
+  const [commentLoading, setCommentLoading] = useState(false);
 
   const downRefreshLoading = useDownRefresh(containerRef, () => {
     return fetchData();
@@ -59,8 +61,6 @@ const House = () => {
       Toast.fail("获取评论列表失败", 1);
     }
   };
-
-  console.log(orderStatus, selfComment);
 
   useLoadMore(
     containerRef,
@@ -115,14 +115,14 @@ const House = () => {
       });
   }, [query.id, resolveButtonFail, dispatch]);
 
-  const addComment = useCallback(() => {
-    dispatch(HouseActions.getComments(query.id)).then(() => {
-      (containerRef.current as HTMLElement).scrollTop = 234;
-    });
-  }, []);
+  const addComment = useCallback(
+    (comment: string) => {
+      dispatch(HouseActions.addComment(parseInt(query.id, 10), xss(comment)));
+    },
+    [query.id, dispatch]
+  );
 
   const handleBack = useCallback(() => {
-    console.log(1);
     history.push(state?.from || state?.houseFrom || "/search", {
       from: "/house",
     });
@@ -161,6 +161,7 @@ const House = () => {
         modalVisible={modalVisible}
         setModalVisible={setModalVisible}
         selfComment={selfComment}
+        commentLoading={commentLoading}
       />
     </div>
   );

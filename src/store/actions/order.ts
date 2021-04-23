@@ -1,4 +1,4 @@
-import { AxiosInstance } from "axios";
+import axios, { AxiosInstance } from "axios";
 import { GetState, NewDispatch } from "..";
 import * as Apis from "@/api";
 import * as Types from "../constants";
@@ -107,7 +107,10 @@ export const pay = (orderId: number) => {
       if (e.status === 403) {
         return Promise.reject(e);
       }
-      Toast.fail("支付失败", 1);
+      if (!axios.isCancel(e)) {
+        Toast.fail("支付失败", 1);
+      }
+      console.error(e);
     }
   };
 };

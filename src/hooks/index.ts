@@ -11,3 +11,4 @@ export * from "./useImg";
 export * from "./useDebounceValue";
 export * from "./useLoadMore";
 export * from "./useScrollTop";
+export * from "./useBeforeMount";

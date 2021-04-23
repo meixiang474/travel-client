@@ -51,6 +51,9 @@ const Info = (props: InfoProps) => {
       case "normal":
         addOrder();
         break;
+      case "bought":
+        setModalVisible(true);
+        break;
       default:
         break;
     }

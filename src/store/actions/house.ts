@@ -9,6 +9,7 @@ import {
   OrderStatus,
 } from "@/typings/house";
 import { timer } from "@/utils";
+import { Toast } from "antd-mobile";
 
 export const changeHouseInfo = (payload: GetHouseInfoAPI) => {
   return {
@@ -147,9 +148,13 @@ export const addComment = (houseId: number, msg: string) => {
       dispatch(changeSelfComment(msg));
       const res = await Apis.getComments<GetCommentsAPI>(request, { houseId });
       dispatch(changeComments(res));
+      Toast.success("评论成功");
     } catch (e) {
       if (e.status === 403) {
         return Promise.reject(e);
+      }
+      if (!axios.isCancel(e)) {
+        Toast.fail("评论失败", 1);
       }
       console.error(e);
     }

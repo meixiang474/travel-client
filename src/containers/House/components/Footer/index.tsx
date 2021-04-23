@@ -1,18 +1,31 @@
-import { memo } from "react";
+import { memo, useEffect, useMemo, useState } from "react";
 import { Modal, TextareaItem, Button } from "antd-mobile";
+import { useBeforeMount } from "@/hooks";
 
 interface FooterProps {
-  addComment: () => void;
+  addComment: (comment: string) => void;
   modalVisible: boolean;
   setModalVisible: (val: boolean) => void;
   selfComment: string;
+  commentLoading: boolean;
 }
 
 const Footer = (props: FooterProps) => {
-  const { addComment, modalVisible, setModalVisible, selfComment } = props;
+  const {
+    addComment,
+    modalVisible,
+    setModalVisible,
+    selfComment,
+    commentLoading,
+  } = props;
+  const [comment, setComment] = useState(selfComment);
+
+  useEffect(() => {
+    setComment(selfComment);
+  }, [selfComment]);
 
   const handleChange = (val?: string) => {
-    console.log(val);
+    setComment(val || "");
   };
 
   return (
@@ -30,14 +43,15 @@ const Footer = (props: FooterProps) => {
             count={200}
             onChange={handleChange}
             style={{ border: "1px solid #ccc" }}
-            defaultValue={selfComment}
+            value={comment}
           />
           <Button
             className="comment-btn"
             type="warning"
+            loading={commentLoading}
             onClick={() => {
               setModalVisible(false);
-              addComment();
+              addComment(comment);
             }}
           >
             评论
