@@ -3,14 +3,7 @@ import List from "./components/List";
 import "./style.less";
 import { useCallbackRef, useLoadMore, useMount } from "@/hooks";
 import { useHistory } from "react-router";
-import {
-  ComponentType,
-  ReactNode,
-  useCallback,
-  useEffect,
-  useRef,
-  useState,
-} from "react";
+import { ReactNode, useCallback, useRef, useState } from "react";
 import { NewDispatch, RootState, ServerStore } from "@/store";
 import * as OrderActions from "@/store/actions/order";
 import { useDispatch, useSelector } from "react-redux";
@@ -88,8 +81,6 @@ const Order = () => {
     },
     [dispatch, history]
   );
-
-  useEffect(() => {}, []);
 
   useLoadMore(
     unPayedListContainer,

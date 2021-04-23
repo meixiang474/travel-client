@@ -101,13 +101,7 @@ export const pay = (orderId: number) => {
         pageSize: 8,
         isPayed: false,
       });
-      const payed = await Apis.getOrders<GetOrdersAPI>(request, {
-        pageIndex: 0,
-        pageSize: 8,
-        isPayed: true,
-      });
       dispatch(changeUnPayedOrders(unPayed));
-      dispatch(changePayedOrders(payed));
       Toast.success("支付成功", 1);
     } catch (e) {
       if (e.status === 403) {
