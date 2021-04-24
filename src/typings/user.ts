@@ -3,6 +3,7 @@ export interface UserInfo {
   username: string;
   avatar: string;
   phone: null | string;
+  sign: null | string;
   createdAt: string;
   updatedAt: string;
 }

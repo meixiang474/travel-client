@@ -117,7 +117,14 @@ const House = () => {
 
   const addComment = useCallback(
     (comment: string) => {
-      dispatch(HouseActions.addComment(parseInt(query.id, 10), xss(comment)));
+      setCommentLoading(true);
+      dispatch(HouseActions.addComment(parseInt(query.id, 10), xss(comment)))
+        .finally(() => {
+          setCommentLoading(false);
+        })
+        .then(() => {
+          setModalVisible(false);
+        });
     },
     [query.id, dispatch]
   );

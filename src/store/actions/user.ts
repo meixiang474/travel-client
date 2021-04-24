@@ -69,3 +69,28 @@ export const logout = () => {
     }
   };
 };
+
+export const edit = (avatar: string, phone: string, sign: string) => {
+  return async (
+    dispatch: NewDispatch,
+    getState: GetState,
+    request: AxiosInstance
+  ) => {
+    try {
+      await Apis.edit<string>(request, { avatar, phone, sign });
+      const { userInfo } = getState().user;
+      dispatch(changeUserInfo({ ...userInfo!, avatar, phone, sign }));
+      Toast.success("修改信息成功", 1);
+    } catch (e) {
+      if (e.status === 403) {
+        Toast.fail("请先登录", 1);
+        return Promise.reject(e);
+      }
+      if (!axios.isCancel(e)) {
+        Toast.fail("修改信息失败", 1);
+        return Promise.reject(e);
+      }
+      console.error(e);
+    }
+  };
+};

@@ -1,14 +1,20 @@
 import picLoading from "@/assets/images/lazy.webp";
 import { protect } from "@/hoc";
+import { useAuth, useImg } from "@/hooks";
 import { List } from "antd-mobile";
 import { useHistory } from "react-router";
 import "./style.less";
 
 const User = () => {
   const history = useHistory();
+  const [, userInfo] = useAuth();
   const handleClick = () => {
     history.push("/edit");
   };
+
+  useImg(".user-avatar", { loading: picLoading, error: picLoading }, [
+    userInfo,
+  ]);
 
   return (
     <div className="user-page">
@@ -17,9 +23,15 @@ const User = () => {
           设置
         </div>
         <div className="user-info-user">
-          <img src={picLoading} alt="user" />
-          <div className="user-info-name">name</div>
-          <div className="user-info-tel">tel</div>
+          <img
+            src={picLoading}
+            alt="user"
+            data-src={userInfo?.avatar || picLoading}
+            className="user-avatar"
+          />
+          <div className="user-info-name">{userInfo?.username || ""}</div>
+          <div className="user-info-tel">{userInfo?.phone || ""}</div>
+          <div className="user-info-sign">{userInfo?.sign || " "}</div>
         </div>
       </div>
       <div className="user-list">

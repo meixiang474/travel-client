@@ -28,3 +28,10 @@ export const register = <T>(
 ) => {
   return request.post<T, T>("/api/user/register", data);
 };
+
+export const edit = <T>(
+  request: AxiosInstance,
+  data: { avatar: string; phone: string; sign: string }
+) => {
+  return request.post<T, T>("/api/user/edit", data);
+};

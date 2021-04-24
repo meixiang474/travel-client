@@ -151,10 +151,12 @@ export const addComment = (houseId: number, msg: string) => {
       Toast.success("评论成功");
     } catch (e) {
       if (e.status === 403) {
+        Toast.fail("请先登录", 1);
         return Promise.reject(e);
       }
       if (!axios.isCancel(e)) {
         Toast.fail("评论失败", 1);
+        return Promise.reject(e);
       }
       console.error(e);
     }

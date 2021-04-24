@@ -50,7 +50,6 @@ const Footer = (props: FooterProps) => {
             type="warning"
             loading={commentLoading}
             onClick={() => {
-              setModalVisible(false);
               addComment(comment);
             }}
           >
